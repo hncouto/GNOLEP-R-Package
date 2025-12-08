@@ -10,13 +10,13 @@ DistributionData_path <- "data/RawData/CurrentVersion/DistributionData.csv"
 WDNnL_db_path <- "data/RawData/CurrentVersion/WDNnL.sqlite"
 
 # Read the CSV file
-DistributionData <- read.csv(DistributionData_path, stringsAsFactors = FALSE, sep = ";")
+CondensedDatabase <- read.csv(DistributionData_path, stringsAsFactors = FALSE, sep = ";")
 
 # Connect to the database
 con <- dbConnect(SQLite(), WDNnL_db_path)
 
 # Read table1
-NativeDistribution <- dbReadTable(con, "NativeDistribution")
+Natives <- dbReadTable(con, "NativeDistribution")
 Realms <- dbReadTable(con, "Realms")
 Records <- dbReadTable(con, "Records")
 References <- dbReadTable(con, "References")
@@ -24,20 +24,27 @@ Regions <- dbReadTable(con, "Regions")
 Taxonomy <- dbReadTable(con, "Taxonomy")
 
 # Perform the join as specified
-database <- Records %>%
+WDnNL <- Records %>%
   left_join(Taxonomy, by = c("SpeciesID" = "SpeciesID")) %>%
   left_join(Regions, by = c("AreaID" = "AreaID")) %>%
   left_join(Realms, by = c("RealmID" = "RealmID")) %>%
   left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
   select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
 
-
+NativeDatabase <- Natives %>%
+  left_join(Taxonomy, by = c("SpeciesID" = "SpeciesID")) %>%
+  left_join(Realms, by = c("RealmID" = "RealmID")) %>%
+  left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
+  select(Species, AcceptedSpecies, Realm, Continent, Cosmopolitan, BibliographicReference, ReferenceYear)
 # Disconnect from the database
 dbDisconnect(con)
 
 
 usethis::use_data(
-  DistributionData, NativeDistribution, Realms, Records,
-  References, Regions, Taxonomy, database,
+  CondensedDatabase, Natives, Realms,
+  References, Regions, Taxonomy, WDnNL, NativeDatabase,
   overwrite = TRUE, compress = "xz"
 )
+
+
+#source("data-raw/prepare-data.R")

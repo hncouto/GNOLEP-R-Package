@@ -4,7 +4,7 @@
 #'
 #' A processed dataset containing distribution `Records` joined with taxonomy, regions,
 #' realms and references. This dataset is produced from the WDNnL SQLite database
-#' and the distribution CSV file (see `data-raw/prepare-data.R`).
+#' and the distribution CSV file (see `data-raw/data-preparation.R`).
 #'
 #' @format A data frame with N rows and M variables:
 #' \describe{
@@ -16,25 +16,32 @@
 #'   # ... fill in the real column names and types
 #' }
 #' @source WDNnL SQLite database and DistributionData CSV (private source)
-"database"
+"WDnNL"
 
-#' Raw distribution CSV
+#' Condensed Database.
 #'
-#' Original CSV read into R as `DistributionData`.
-#' @format A data frame with ... (describe columns)
-"DistributionData"
+#' Condensed Database to one Species per Region.
+#' @format A data frame with a total of 10 variables.
+#'
+#' Taxonomic variables (3): Species, Family; Butterfly (1 for Papilionoidea Superfamily)
+#'
+#' Distribution Variables (3): Region, Realm, Continent;
+#'
+#' Introduction Variables (2): First Observation, Intentional Release;
+#'
+#' Reference Data (2): Latest Reference (in the Complete database), Latest Reference Year
+#'
+"CondensedDatabase"
 
-#' NativeDistribution table
-#' @format A data frame...
-"NativeDistribution"
+#' Native Distribution Table
+#'
+#' Table with Native Distribution per Species
+#' @format A data frame with
+"Natives"
 
 #' Realms table
 #' @format A data frame...
 "Realms"
-
-#' Records table
-#' @format A data frame...
-"Records"
 
 #' References table
 #' @format A data frame...
@@ -47,3 +54,7 @@
 #' Taxonomy table
 #' @format A data frame...
 "Taxonomy"
+
+#' NativeDatabase table
+#' @format A data frame...
+"NativeDatabase"
