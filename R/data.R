@@ -58,3 +58,7 @@
 #' NativeDatabase table
 #' @format A data frame...
 "NativeDatabase"
+
+#' Records table
+#' @format A data frame...
+"Records"
