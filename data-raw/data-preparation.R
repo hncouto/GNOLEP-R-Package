@@ -15,7 +15,7 @@ CondensedDatabase <- read.csv(DistributionData_path, stringsAsFactors = FALSE, s
 # Connect to the database
 con <- dbConnect(SQLite(), WDNnL_db_path)
 
-# Read table1
+# Read Tables
 Natives <- dbReadTable(con, "NativeDistribution")
 Realms <- dbReadTable(con, "Realms")
 Records <- dbReadTable(con, "Records")
@@ -41,10 +41,9 @@ dbDisconnect(con)
 
 
 usethis::use_data(
-  CondensedDatabase, Natives, Realms,
+  CondensedDatabase, Natives, Realms, Records,
   References, Regions, Taxonomy, WDnNL, NativeDatabase,
-  overwrite = TRUE, compress = "xz"
-)
+  overwrite = TRUE, compress = "xz")
 
 
-#source("data-raw/prepare-data.R")
+#source("data-raw/data-preparation.R")

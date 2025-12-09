@@ -15,12 +15,11 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.5)
+    R (>= 3.5),
+    DBI,
+    RSQLite,
+    dplyr,
+    usethis
 RoxygenNote: 7.3.3
 Imports:
     methods
-Suggests:
-    dplyr,
-    RSQLite,
-    DBI,
-    usethis
