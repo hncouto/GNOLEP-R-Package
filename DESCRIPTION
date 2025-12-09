@@ -1,15 +1,27 @@
 Package: WDnNL
 Type: Package
-Title: What the Package Does (Title Case)
+Title: WDnNL - Worldwide Database of non-Native Lepidoptera
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "Henrique", "Couto",
+      email = "henriquenunocouto@gmail.com",
       role = c("aut", "cre")
+    ),
+    person(
+    "César", "Capinha",
+    role = c("aut", "col")
+    ),
+    person(
+    "Rui", "Rebelo",
+    role = c("aut", "col")
+    ),
+    person(
+    "José", "Grosso-Silva",
+    role = c("aut", "col")
     )
   )
-Description: More about what it does (maybe more than one line).
+Description: Access directly through R to the WDnNL.
     Continuation lines should be indented.
 License: What license is it under?
 Encoding: UTF-8

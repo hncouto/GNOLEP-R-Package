@@ -5,15 +5,28 @@
 \alias{CondensedDatabase}
 \title{Condensed Database.}
 \format{
-A data frame with a total of 10 variables.
+A data frame with a total of 9 variables.
 
-Taxonomic variables (3): Species, Family; Butterfly (1 for Papilionoidea Superfamily)
+Taxonomic variables (2): Species, Family;
 
-Distribution Variables (3): Region, Realm, Continent;
+Distribution Variables (3): Region, Continent, Realm;
 
 Introduction Variables (2): First Observation, Intentional Release;
 
 Reference Data (2): Latest Reference (in the Complete database), Latest Reference Year
+
+
+\describe{
+  \item{Species}{character; species name accepted by GBIF}
+  \item{Family}{character; species taxonomic family}
+  \item{Region}{character; record region}
+  \item{Continent}{character; record continent}
+  \item{Realm}{character; record biogeographic realm}
+  \item{First_Observation}{integer; oldest first record}
+  \item{IntentionalRelease}{binary; record of intentional introduction (biocontrol included)}
+  \item{Latest_Reference}{character; most recent reference on the database for the species-region pair}
+  \item{Latest_Reference_Year}{integer; reference year}
+}
 }
 \usage{
 CondensedDatabase
