@@ -70,11 +70,34 @@
 #'
 "CondensedDatabase"
 
-#' Native Distribution Table
+#' NativeDatabase table
+#' @format A data frame...
 #'
-#' Table with Native Distribution per Species
-#' @format A data frame with
-"Natives"
+#' Taxonomic Variables (2); Species, Accepted Species according to GBIF
+#'
+#' Distribution Variables (3): Continent, Realm, Cosmopolitan
+#'
+#' Reference Data (2): Reference Citation, Reference Year
+#'
+#'\describe{
+#'   \item{Species}{character; species name on original record}
+#'   \item{AcceptedSpecies}{character; species name according to GBIF}
+#'   \item{Realm}{character; native biogeographic realm}
+#'   \item{Continent}{character; native continent}
+#'   \item{Cosmopolitan}{binary; identifier if the species is cosmopolitan}
+#'   \item{BibliographicReference}{character; original record reference}
+#'   \item{ReferenceYear}{integer; reference year}
+#' }
+#'
+"NativeDatabase"
+
+#' Taxonomy table
+#' @format A data frame...
+"Taxonomy"
+
+#' Regions table
+#' @format A data frame...
+"Regions"
 
 #' Realms table
 #' @format A data frame...
@@ -84,18 +107,12 @@
 #' @format A data frame...
 "References"
 
-#' Regions table
-#' @format A data frame...
-"Regions"
-
-#' Taxonomy table
-#' @format A data frame...
-"Taxonomy"
-
-#' NativeDatabase table
-#' @format A data frame...
-"NativeDatabase"
-
 #' Records table
 #' @format A data frame...
 "Records"
+
+#' Native Distribution Table
+#'
+#' Table with Native Distribution per Species
+#' @format A data frame with
+"Natives"

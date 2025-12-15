@@ -6,6 +6,22 @@
 \title{NativeDatabase table}
 \format{
 A data frame...
+
+Taxonomic Variables (2); Species, Accepted Species according to GBIF
+
+Distribution Variables (3): Continent, Realm, Cosmopolitan
+
+Reference Data (2): Reference Citation, Reference Year
+
+\describe{
+  \item{Species}{character; species name on original record}
+  \item{AcceptedSpecies}{character; species name according to GBIF}
+  \item{Realm}{character; native biogeographic realm}
+  \item{Continent}{character; native continent}
+  \item{Cosmopolitan}{binary; identifier if the species is cosmopolitan}
+  \item{BibliographicReference}{character; original record reference}
+  \item{ReferenceYear}{integer; reference year}
+}
 }
 \usage{
 NativeDatabase
