@@ -22,7 +22,7 @@
 #'
 #' @examples
 summary.WDnNL <- function(
-    object,
+    object = data(WDnNL),
     include_non_established = TRUE,
     include_absent_establishment_data = TRUE,
     include_intentional = TRUE,
@@ -85,8 +85,20 @@ summary.WDnNL <- function(
     object <- object
   }
 
+  if (!include_records_pre_eradication) {
+    filtered_data <- object %>% filter(Eradicated == 1)
+    erad_years <- filtered_data %>% group_by(AcceptedSpecies, AreaName) %>%
+      summarise( ReferenceYear = max(ReferenceYear, na.rm = FALSE),
+                 .groups = "drop")
+    names(erad_years)[names(erad_years) == "ReferenceYear"] <- "EradicationYear"
+    object <- merge(object,erad_years, by = c("AcceptedSpecies", "AreaName"), all.x = TRUE)
+    object <- object %>% filter(is.na(EradicationYear) | ReferenceYear >= EradicationYear)
+    object$EradicationYear <- NULL
+    }
+
   if(nrow(object) == 0) {
     stop("Data table is empty.\n")}
+
 
   result <- list(
     total_records = total_records,
@@ -96,13 +108,11 @@ summary.WDnNL <- function(
     total_countries = total_countries,
     total_continents = total_continents,
     total_realms = total_realms,
+    total_references = total_references,
     top_species_records = top_species_records,
     top_regions_records = top_regions_records,
-    oldest_record_year = oldest_record_year,
-    temporal_impact_counts = temporal_impact_counts,
-    temporal_score_by_type = temporal_score_by_type,
-    parameters = parameters,
-    data_summary = data_summary
+    top_reference_records = top_reference_records,
+    oldest_record_year = oldest_record_year
   )
 
   return(result)
