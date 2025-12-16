@@ -2,7 +2,7 @@
 % Please edit documentation in R/Summary_WDnNL.R
 \name{summary.WDnNL}
 \alias{summary.WDnNL}
-\title{Title}
+\title{Summarize WDnNL}
 \usage{
 \method{summary}{WDnNL}(
   object,
@@ -24,8 +24,18 @@
 )
 }
 \arguments{
+\item{object}{A WDnNL dataframe}
+
+\item{include_non_established}{TRUE or FALSE - define if keep only established species or all}
+
+\item{include_absent_establishment_data}{TRUE or FALSE - define if keep records with NA's on establishement data}
+
 \item{realm_list}{}
 }
 \description{
-Title
+Summarize WDnNL
+}
+\examples{
+# example code
+
 }

@@ -1,8 +1,8 @@
-#' Title
+#' Summarize WDnNL
 #'
-#' @param object
-#' @param include_non_established
-#' @param include_absent_establishment_data
+#' @param object A WDnNL dataframe
+#' @param include_non_established TRUE or FALSE - define if keep only established species or all
+#' @param include_absent_establishment_data TRUE or FALSE - define if keep records with NA's on establishement data
 #' @param include_intentional
 #' @param include_absent_intentional_data
 #' @param include_cryptogenic
@@ -19,6 +19,10 @@
 #'
 #' @returns
 #' @export
+#'
+#' @examples
+#' # example code
+#'
 summary.WDnNL <- function(
     object,
     include_non_established = TRUE,
@@ -158,12 +162,12 @@ print.summary.WDnNL <- function(x, ...) {
 
   records_table <- data.frame(
     Metric = c(
-      "Total records",
-      "Total references",
-      "Most prevalent reference",
-      "Most prevalent reference - Number of Records",
-      "Oldest record year",
-      "Oldest reference"),
+      "Total Records:",
+      "Total References:",
+      "Most Prevalent Reference:",
+      "Most Prevalent Reference - Number of Records:",
+      "Oldest Record Year:",
+      "Oldest Reference:"),
     Value = c(
       x$total_records,
       x$total_references,
@@ -175,12 +179,12 @@ print.summary.WDnNL <- function(x, ...) {
 
   species_table <- data.frame(
     Metric = c(
-      "Total Species",
-      "Total Families",
-      "Most prevalent Species",
-      "Most prevalent Family",
-      "Most prevalent Species - Number of Records",
-      "Most prevalent Family - Number of Records"),
+      "Total Species:",
+      "Total Families:",
+      "Most prevalent Species:",
+      "Most prevalent Family:",
+      "Most prevalent Species - Number of Records:",
+      "Most prevalent Family - Number of Records:"),
     Value = c(
       x$total_species,
       x$total_families,
@@ -192,12 +196,12 @@ print.summary.WDnNL <- function(x, ...) {
 
   regions_table <- data.frame(
     Metric = c(
-      "Total regions",
-      "Total countries",
-      "Total continents",
-      "Total realms",
-      "Most invaded Region",
-      "Invasion Records - Most Invaded Region"),
+      "Total regions:",
+      "Total countries:",
+      "Total continents:",
+      "Total realms:",
+      "Most invaded Region:",
+      "Invasion Records - Most Invaded Region:"),
     Value = c(
       x$total_regions,
       x$total_countries,
@@ -207,20 +211,24 @@ print.summary.WDnNL <- function(x, ...) {
       x$most_prevalent_region_records),
     row.names = NULL)
 
-  cat("\nWDnNL summary\n")
-  cat("==============================\n")
+  cat("\n=============================================================================================\n")
+  cat("                                     WDnNL summary\n")
+  cat("=============================================================================================\n")
 
-  cat("\nRecords overview\n")
-  cat("------------------------------\n")
-  print(records_table)
+  cat("\n---------------------------------------------------------------------------------------------\n")
+  cat("Records overview\n")
+  cat("---------------------------------------------------------------------------------------------\n")
+  write.table(records_table, row.names = FALSE, col.names = FALSE, quote = FALSE)
 
-  cat("\nSpecies overview\n")
-  cat("------------------------------\n")
-  print(species_table)
+  cat("\n---------------------------------------------------------------------------------------------\n")
+  cat("Species overview\n")
+  cat("---------------------------------------------------------------------------------------------\n")
+  write.table(species_table, row.names = FALSE, col.names = FALSE, quote = FALSE)
 
-  cat("\nRegions overview\n")
-  cat("------------------------------\n")
-  print(regions_table)
+  cat("\n---------------------------------------------------------------------------------------------\n")
+  cat("Regions overview\n")
+  cat("---------------------------------------------------------------------------------------------\n")
+  write.table(regions_table, row.names = FALSE, col.names = FALSE, quote = FALSE)
 
   invisible(x)
 }
