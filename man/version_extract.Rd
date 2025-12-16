@@ -18,5 +18,5 @@ The table from the specified version as a dataframe
 Table Extraction from previous database versions.
 }
 \examples{
-version_extract(,"NativeDatabase")
+version_extract(1,"NativeDatabase") - not yet available
 }

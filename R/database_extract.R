@@ -14,7 +14,7 @@ library(dplyr)
 #' @returns The table from the specified version as a dataframe
 #' @export
 #'
-#' @examples version_extract(,"NativeDatabase")
+#' @examples version_extract(1,"NativeDatabase") - not yet available
 version_extract <- function(version = "", table) {
 
   if (is.null(version) || version == "" || is.na(version)) {
@@ -75,6 +75,7 @@ version_extract <- function(version = "", table) {
       left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
       select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
     final_dataframe <- as.data.frame(WDnNL)
+    class(final_dataframe) <- append("WDnNL", class(final_dataframe))
     dbDisconnect(con)
 
   } else if (table == "References") {
@@ -101,4 +102,7 @@ version_extract <- function(version = "", table) {
     paste0(table,"V", version)
   }
   assign(obj_name, final_dataframe, envir = .GlobalEnv)
+
+  if (is.null(version) || version == "" || is.na(version)) {
+    cat(paste0("For current version please use data(\"", table, "\") instead.\n"))}
 }
