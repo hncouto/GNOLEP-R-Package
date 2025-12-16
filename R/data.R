@@ -1,4 +1,5 @@
 # R/data.R
+# -----------------------
 
 #' WDnNL - Worldwide Database of non-Native Lepidoptera
 #'
