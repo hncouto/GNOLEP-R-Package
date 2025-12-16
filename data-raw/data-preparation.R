@@ -40,9 +40,13 @@ NativeDatabase <- Natives %>%
 dbDisconnect(con)
 
 
+class(WDnNL) <- append("WDnNL", class(WDnNL))
+
+save(WDnNL, file = "data/WDnNL.rda", compress = "xz")
+
 usethis::use_data(
   CondensedDatabase, Natives, Realms, Records,
-  References, Regions, Taxonomy, WDnNL, NativeDatabase,
+  References, Regions, Taxonomy, NativeDatabase,
   overwrite = TRUE, compress = "xz")
 
 
