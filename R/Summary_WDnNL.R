@@ -3,25 +3,32 @@
 #' @param object A WDnNL dataframe
 #' @param include_non_established TRUE or FALSE - define if keep only established species or all
 #' @param include_absent_establishment_data TRUE or FALSE - define if keep records with NA's on establishement data
-#' @param include_intentional
-#' @param include_absent_intentional_data
-#' @param include_cryptogenic
-#' @param include_absent_cryptogenic_data
-#' @param include_non_Introduced
-#' @param include_absent_Introduced_data
-#' @param family_list
-#' @param include_eradicated_data
-#' @param include_eradication_records
-#' @param include_records_pre_eradication
-#' @param country_list
-#' @param continent_list
-#' @param realm_list
+#' @param include_intentional TRUE or FALSE - define if keep records from intentional release
+#' @param include_absent_intentional_data TRUE or FALSE - define if keep records with NA's on intentional release
+#' @param include_cryptogenic TRUE or FALSE - define if keep records with cryptogenic origin
+#' @param include_absent_cryptogenic_data TRUE or FALSE - define if keep records with NA's on cryptogenic origin
+#' @param include_non_Introduced TRUE or FALSE - define if keep species that arrived through natural dispersal
+#' @param include_absent_Introduced_data TRUE or FALSE - define if keep records with NA's on introduction origin
+#' @param family_list A list with Lepidoptera families
+#' @param include_eradicated_data TRUE or FALSE - define if keep records with NA's on erradicated
+#' @param include_eradication_records TRUE or FALSE - define if keep records with successful erradication
+#' @param include_records_pre_eradication TRUE or FALSE - define if keep records of introductions after erradications
+#' @param country_list A list of Countries
+#' @param continent_list A list of Continents
+#' @param realm_list A list of Biogeographic Realms
 #'
-#' @returns
+#' @returns Summary of the dataframe as a summary.WDnNL object
 #' @export
 #'
 #' @examples
-#' # example code
+#' # summary(WDnNL)
+#'
+#' # summary(WDnNL,
+#'           include_non_established = FALSE,
+#'           include_absent_establishment_data = FALSE,
+#'           include_cryptogenic = FALSE,
+#'           include_non_Introduced = FALSE,
+#'           family_list = c("Noctuidae", "Gelechiidae", "Tortricidae"))
 #'
 summary.WDnNL <- function(
     object,
@@ -148,10 +155,10 @@ summary.WDnNL <- function(
 
 #' Title
 #'
-#' @param x
+#' @param x A summary.WDnNL object
 #' @param ...
 #'
-#' @returns
+#' @returns A printed summary of the dataframe
 #' @export
 print.summary.WDnNL <- function(x, ...) {
 

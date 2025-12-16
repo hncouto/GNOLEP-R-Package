@@ -7,7 +7,12 @@
 \method{print}{summary.WDnNL}(x, ...)
 }
 \arguments{
+\item{x}{A summary.WDnNL object}
+
 \item{...}{}
+}
+\value{
+A printed summary of the dataframe
 }
 \description{
 Title
