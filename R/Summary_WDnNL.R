@@ -50,52 +50,21 @@ summary.WDnNL <- function(
 ) {
 
 
-  if (!is.null(family_list)) {
-    object <- object[object$Family %in% family_list, ]}
-
-  if (!is.null(country_list)) {
-    object <- object[object$Country %in% country_list, ]}
-
-  if (!is.null(continent_list)) {
-    object <- object[object$Continent %in% continent_list, ]}
-
-  if (!is.null(realm_list)) {
-    object <- object[object$Realm %in% realm_list, ]}
-
-  if (!include_non_established) {
-    object <- object[object$Established != 0 | is.na(object$Established), ]}
-
-  if (!include_intentional) {
-    object <- object[object$IntentionalRelease != 1 | is.na(object$IntentionalRelease),  ]}
-
-  if (!include_cryptogenic) {
-    object <- object[object$Cryptogenic != 1 | is.na(object$Cryptogenic), ]}
-
-  if (!include_non_Introduced) {
-    object <- object[object$Introduced != 0 | is.na(object$Introduced), ]}
-
-  if (!include_absent_establishment_data) {
-    object <- object[!is.na(object$Established), ]}
-
-  if (!include_absent_intentional_data) {
-    object <- object[!is.na(object$IntentionalRelease), ]}
-
-  if (!include_absent_cryptogenic_data) {
-    object <- object[!is.na(object$Cryptogenic), ]}
-
-  if (!include_absent_Introduced_data) {
-    object <- object[!is.na(object$Introduced), ]}
-
-  if (!include_eradicated_data) {
-    object <- object[!is.na(object$Eradicated), ]}
-
-  if (!include_eradication_records) {
-    object <- object[object$Eradicated != 1 | is.na(object$Eradicated), ]}
-
-  if (!include_records_pre_eradication) {
-    object <- object
-  }
-
+  if (!is.null(family_list)) {object <- object[object$Family %in% family_list, ]}
+  if (!is.null(country_list)) {object <- object[object$Country %in% country_list, ]}
+  if (!is.null(continent_list)) {object <- object[object$Continent %in% continent_list, ]}
+  if (!is.null(realm_list)) {object <- object[object$Realm %in% realm_list, ]}
+  if (!include_non_established) {object <- object[object$Established != 0 | is.na(object$Established), ]}
+  if (!include_intentional) {object <- object[object$IntentionalRelease != 1 | is.na(object$IntentionalRelease),  ]}
+  if (!include_cryptogenic) {object <- object[object$Cryptogenic != 1 | is.na(object$Cryptogenic), ]}
+  if (!include_non_Introduced) {object <- object[object$Introduced != 0 | is.na(object$Introduced), ]}
+  if (!include_absent_establishment_data) {object <- object[!is.na(object$Established), ]}
+  if (!include_absent_intentional_data) {object <- object[!is.na(object$IntentionalRelease), ]}
+  if (!include_absent_cryptogenic_data) {object <- object[!is.na(object$Cryptogenic), ]}
+  if (!include_absent_Introduced_data) {object <- object[!is.na(object$Introduced), ]}
+  if (!include_eradicated_data) {object <- object[!is.na(object$Eradicated), ]}
+  if (!include_eradication_records) {object <- object[object$Eradicated != 1 | is.na(object$Eradicated), ]}
+  if (!include_records_pre_eradication) {object <- object}
   if (!include_records_pre_eradication) {
     filtered_data <- object %>% filter(Eradicated == 1)
     erad_years <- filtered_data %>% group_by(AcceptedSpecies, AreaName) %>%
@@ -104,11 +73,9 @@ summary.WDnNL <- function(
     names(erad_years)[names(erad_years) == "ReferenceYear"] <- "EradicationYear"
     object <- merge(object,erad_years, by = c("AcceptedSpecies", "AreaName"), all.x = TRUE)
     object <- object %>% filter(is.na(EradicationYear) | ReferenceYear >= EradicationYear)
-    object$EradicationYear <- NULL
-    }
+    object$EradicationYear <- NULL}
 
-  if(nrow(object) == 0) {
-    stop("Data table is empty.\n")}
+  if(nrow(object) == 0) {stop("Data table is empty.\n")}
 
   total_records <- nrow(object)
   total_species <- length(unique(object$AcceptedSpecies))
