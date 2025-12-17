@@ -15,7 +15,11 @@ library(dplyr)
 #' @export
 #'
 #' @examples version_extract(1,"NativeDatabase") - not yet available
-version_extract <- function(version = "", table) {
+version_extract <- function(version = "", table, destination_file=NULL) {
+
+  #URL = paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/tree/main/Previous%20Versions/V",version)
+
+  #destination_file =
 
   if (is.null(version) || version == "" || is.na(version)) {
     DistributionData_path <- "data/RawData/CurrentVersion/DistributionData.csv"
