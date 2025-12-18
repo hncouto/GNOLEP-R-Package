@@ -19,7 +19,14 @@ version_extract <- function(version = "", table, destination_file=NULL) {
 
   #URL = paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/tree/main/Previous%20Versions/V",version)
 
-  #destination_file =
+  #csv_url <- "https://raw.githubusercontent.com/OWNER/WnDD/main/data/mydata.csv"
+  #df <- read.csv(csv_url)
+
+  #db_url <- "https://raw.githubusercontent.com/OWNER/WnDD/main/data/mydb.sqlite"
+  #db_file <- tempfile(fileext = ".sqlite")
+  #download.file(db_url, db_file, mode = "wb")
+  #con <- DBI::dbConnect(RSQLite::SQLite(), db_file)
+
 
   if (is.null(version) || version == "" || is.na(version)) {
     DistributionData_path <- "data/RawData/CurrentVersion/DistributionData.csv"
