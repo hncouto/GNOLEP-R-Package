@@ -19,8 +19,8 @@ version_extract <- function(version = "", table, destination_file=NULL) {
 
   #URL = paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/tree/main/Previous%20Versions/V",version)
 
-  #csv_url <- "https://raw.githubusercontent.com/OWNER/WnDD/main/data/mydata.csv"
-  #df <- read.csv(csv_url)
+  #DistData_url_PreviousVersion <- paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,"/DistributionData.csv")
+  #df <- read.csv(DistData_url)
 
   #db_url <- "https://raw.githubusercontent.com/OWNER/WnDD/main/data/mydb.sqlite"
   #db_file <- tempfile(fileext = ".sqlite")
@@ -29,11 +29,15 @@ version_extract <- function(version = "", table, destination_file=NULL) {
 
 
   if (is.null(version) || version == "" || is.na(version)) {
-    DistributionData_path <- "data/RawData/CurrentVersion/DistributionData.csv"
-    WDNnL_db_path <- "data/RawData/CurrentVersion/WDNnL.sqlite"
+    DistributionData_path <- paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Current%20Version/DistributionData.csv")
+    WDNnL_db_path <- .get_WDNnL_db_current()
+    #DistributionData_path <- "data/RawData/CurrentVersion/DistributionData.csv"
+    #WDNnL_db_path <- "data/RawData/CurrentVersion/WDNnL.sqlite"
   } else {
-    DistributionData_path <- file.path("data/RawData/", paste0("V", version), "/DistributionData.csv")
-    WDNnL_db_path <- file.path("data/RawData/", paste0("V", version), "/WDNnL.sqlite")}
+    DistributionData_path <- paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,"/DistributionData.csv")
+    WDNnL_db_path <- .get_WDNnL_db_previous(version)
+    #DistributionData_path <- file.path("data/RawData/", paste0("V", version), "/DistributionData.csv")
+    #WDNnL_db_path <- file.path("data/RawData/", paste0("V", version), "/WDNnL.sqlite")}
 
   if (table == "CondensedDatabase"){
     CondensedDatabase <- read.csv(DistributionData_path, stringsAsFactors = FALSE, sep = ";")
@@ -116,4 +120,40 @@ version_extract <- function(version = "", table, destination_file=NULL) {
 
   if (is.null(version) || version == "" || is.na(version)) {
     cat(paste0("For current version please use data(\"", table, "\") instead.\n"))}
+}
+
+
+.get_WDNnL_db_current <- function() {
+  cache_dir <- tools::R_user_dir("WnDD", which = "cache")
+  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+
+  db_path <- file.path(cache_dir, "mydb.sqlite")
+
+  if (!file.exists(db_path)) {
+    download.file(
+      "https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Current%20Version/mydb.sqlite",
+      db_path,
+      mode = "wb"
+    )
+  }
+
+  db_path
+}
+
+
+.get_WDNnL_db_previous <- function(version) {
+  cache_dir <- tools::R_user_dir("WnDD", which = "cache")
+  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+
+  db_path <- file.path(cache_dir, "mydb.sqlite")
+
+  if (!file.exists(db_path)) {
+    download.file(
+      paste0("https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,"/mydb.sqlite"),
+      db_path,
+      mode = "wb"
+    )
+  }
+
+  db_path
 }
