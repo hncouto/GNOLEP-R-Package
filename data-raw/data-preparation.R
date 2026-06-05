@@ -68,8 +68,10 @@ Taxonomy_keyd <- Taxonomy %>%
       select(SpeciesID, Species) %>%
       rename(AcceptedSpeciesID = SpeciesID,
              AcceptedSpecies = Species),
-    by = "AcceptedSpeciesID") %>%
-  select(SpeciesID, AcceptedSpeciesID, AcceptedSpecies)
+    by = "AcceptedSpeciesID")
+
+Taxonomy_keyd <-
+  Taxonomy_keyd %>% select(SpeciesID, AcceptedSpeciesID, AcceptedSpecies)
 
 RankedObservations <- Records %>%
   inner_join(Taxonomy_keyd, by = "SpeciesID") %>%
@@ -123,8 +125,10 @@ CondensedDatabase <- ObservationsSummary %>%
       NA_real_,
       First_Observation))
 
-usethis::use_data(
-  CondensedDatabase,
+class(CondensedDatabase) <- c("WDnNL", "data.frame")
+
+
+usethis::use_data(CondensedDatabase,
   Natives, Realms, Records,
   References, Regions, Taxonomy, NativeDatabase,
   overwrite = TRUE, compress = "xz")

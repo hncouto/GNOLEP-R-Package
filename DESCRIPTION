@@ -32,6 +32,6 @@ Depends:
     RSQLite,
     dplyr,
     usethis
-RoxygenNote: 7.3.3
 Imports:
     methods
+Config/roxygen2/version: 8.0.0
