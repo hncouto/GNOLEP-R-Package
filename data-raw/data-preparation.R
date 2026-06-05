@@ -6,16 +6,16 @@ library(RSQLite)
 library(dplyr)
 
 # Paths to the raw data
+WDNnL_db_path <- "https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Database%20Tables/"
 DistributionData_path <- "data/RawData/CurrentVersion/DistributionData.csv"
-WDNnL_db_path <- "data/RawData/CurrentVersion/WDNnL.sqlite"
 
 # Read the CSV file
 CondensedDatabase <- read.csv(DistributionData_path, stringsAsFactors = FALSE, sep = ";")
 
-# Connect to the database
-con <- dbConnect(SQLite(), WDNnL_db_path)
-
 # Read Tables
+
+Natives <- read.csv(paste0(WDNnL_db_path,"Obs_NativesDB.csv"), stringsAsFactors = FALSE, sep = ";")
+
 Natives <- dbReadTable(con, "NativeDistribution")
 Realms <- dbReadTable(con, "Realms")
 Records <- dbReadTable(con, "Records")
@@ -37,7 +37,6 @@ NativeDatabase <- Natives %>%
   left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
   select(Species, AcceptedSpecies, Realm, Continent, Cosmopolitan, BibliographicReference, ReferenceYear)
 # Disconnect from the database
-dbDisconnect(con)
 
 
 class(WDnNL) <- append("WDnNL", class(WDnNL))
