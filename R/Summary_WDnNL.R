@@ -210,7 +210,7 @@ print.summary.WDnNL <- function(x, ...) {
 
 #' Title
 #'
-#' @param x A summary.WDnNL object
+#' @param x A CondensedWDnNL object
 #' @param ...
 #'
 #' @returns A printed summary of the dataframe
@@ -295,7 +295,7 @@ print.summary.CondensedWDnNL <- function(x, ...) {
       "Oldest Record Year:"),
     Value = c(
       x$total_records,
-      x$oldest_reference),
+      x$oldest_record_year),
     row.names = NULL)
 
   species_table <- data.frame(
