@@ -125,10 +125,12 @@ CondensedDatabase <- ObservationsSummary %>%
       NA_real_,
       First_Observation))
 
-class(CondensedDatabase) <- c("WDnNL", "data.frame")
+class(CondensedDatabase) <- c("CondensedWDnNL", "data.frame")
+save(CondensedDatabase, file = "data/CondensedDatabase.rda", compress = "xz")
 
 
-usethis::use_data(CondensedDatabase,
+usethis::use_data(
+  #CondensedDatabase,
   Natives, Realms, Records,
   References, Regions, Taxonomy, NativeDatabase,
   overwrite = TRUE, compress = "xz")

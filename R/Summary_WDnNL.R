@@ -206,3 +206,6 @@ print.summary.WDnNL <- function(x, ...) {
 
   invisible(x)
 }
+
+
+summary.
