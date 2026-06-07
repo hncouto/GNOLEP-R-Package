@@ -27,6 +27,40 @@
 }
 \arguments{
 \item{object}{A WDnNL object dataframe}
+
+\item{OverTime}{Time trends of First Records in the selected dataset. I selected alone it will return global trends}
+
+\item{ContinentalPlot}{Continental Trends in the selected dataset. If selected alone it will return a bar graph with data on continents.}
+
+\item{RealmPlot}{Realm Trends in the selected dataset. If selected alone it will return a bar graph with data on biogeographic realms.}
+
+\item{include_non_established}{TRUE or FALSE - define if keep only established species or all}
+
+\item{include_absent_establishment_data}{TRUE or FALSE - define if keep records with NA's on establishement data}
+
+\item{include_intentional}{TRUE or FALSE - define if keep records from intentional release}
+
+\item{include_absent_intentional_data}{TRUE or FALSE - define if keep records with NA's on intentional release}
+
+\item{include_cryptogenic}{TRUE or FALSE - define if keep records with cryptogenic origin}
+
+\item{include_absent_cryptogenic_data}{TRUE or FALSE - define if keep records with NA's on cryptogenic origin}
+
+\item{include_non_Introduced}{TRUE or FALSE - define if keep species that arrived through natural dispersal}
+
+\item{include_absent_Introduced_data}{TRUE or FALSE - define if keep records with NA's on introduction origin}
+
+\item{include_eradicated_data}{TRUE or FALSE - define if keep records with NA's on erradicated}
+
+\item{include_eradication_records}{TRUE or FALSE - define if keep records with successful erradication}
+
+\item{include_records_pre_eradication}{TRUE or FALSE - define if keep records of introductions after erradications}
+
+\item{continent_list}{A list of Continents}
+
+\item{family_list}{A list with Lepidoptera families}
+
+\item{realm_list}{A list of Biogeographic Realms}
 }
 \value{
 Summary plots for the subset of WDnNL selected.
@@ -41,9 +75,9 @@ Plot Data Summaries
        OverTime = FALSE,
        ContinentalPlot = TRUE,
        include_non_established = FALSE,
-          include_absent_establishment_data = FALSE,
-          include_cryptogenic = FALSE,
-          include_non_Introduced = FALSE,
-          family_list = c("Noctuidae", "Gelechiidae", "Tortricidae"))
+       include_absent_establishment_data = FALSE,
+       include_cryptogenic = FALSE,
+       include_non_Introduced = FALSE,
+       family_list = c("Noctuidae", "Gelechiidae", "Tortricidae"))
 
 }
