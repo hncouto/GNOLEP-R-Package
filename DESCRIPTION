@@ -1,7 +1,7 @@
 Package: WDnNL
 Type: Package
 Title: WDnNL - Worldwide Database of non-Native Lepidoptera
-Version: 0.1.0
+Version: 0.0.1
 Authors@R: c(
     person(
       "Henrique", "Couto",
@@ -19,6 +19,14 @@ Authors@R: c(
     person(
     "José", "Grosso-Silva",
     role = c("aut", "col")
+    ),
+    person(
+    "Peilin", "Wang",
+    role = c("aut", "col")
+    ),
+    person(
+    "Yibo", "Zhang",
+    role = c("aut", "col")
     )
   )
 Description: Access directly through R to the WDnNL.
@@ -28,8 +36,6 @@ Encoding: UTF-8
 LazyData: true
 Depends: 
     R (>= 3.5),
-    DBI,
-    RSQLite,
     dplyr,
     usethis
 Imports:

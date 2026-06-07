@@ -2,12 +2,12 @@
 % Please edit documentation in R/Plot_WDnNL.R
 \name{plot.WDnNL}
 \alias{plot.WDnNL}
-\title{Title}
+\title{Plot Data Summaries}
 \usage{
 \method{plot}{WDnNL}(
   object,
   OverTime = TRUE,
-  ContinetalPlot = FALSE,
+  ContinentalPlot = FALSE,
   RealmPlot = FALSE,
   include_non_established = TRUE,
   include_absent_establishment_data = TRUE,
@@ -21,15 +21,29 @@
   include_eradication_records = TRUE,
   include_records_pre_eradication = TRUE,
   continent_list = NULL,
+  family_list = NULL,
   realm_list = NULL
 )
 }
 \arguments{
-\item{x}{A summary.WDnNL object}
+\item{object}{A WDnNL object dataframe}
 }
 \value{
-Summary plots
+Summary plots for the subset of WDnNL selected.
 }
 \description{
-Title
+Plot Data Summaries
+}
+\examples{
+# plot(WDnNL)
+
+# plot(WDnNL,
+       OverTime = FALSE,
+       ContinentalPlot = TRUE,
+       include_non_established = FALSE,
+          include_absent_establishment_data = FALSE,
+          include_cryptogenic = FALSE,
+          include_non_Introduced = FALSE,
+          family_list = c("Noctuidae", "Gelechiidae", "Tortricidae"))
+
 }

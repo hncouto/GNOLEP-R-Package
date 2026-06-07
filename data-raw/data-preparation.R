@@ -41,26 +41,6 @@ Realms <- read_private_csv("Database Tables/Geography_Realms.csv")
 ############
 
 # Perform the join as specified
-WDnNL <- Records %>%
-  left_join(Taxonomy, by = c("SpeciesID" = "SpeciesID")) %>%
-  left_join(Regions, by = c("AreaID" = "AreaID")) %>%
-  left_join(Realms, by = c("RealmID" = "RealmID")) %>%
-  left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
-  select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
-
-NativeDatabase <- Natives %>%
-  left_join(Taxonomy, by = c("SpeciesID" = "SpeciesID")) %>%
-  left_join(Realms, by = c("RealmID" = "RealmID")) %>%
-  left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
-  select(Species, Realm, Continent, BibliographicReference, ReferenceYear)
-
-
-class(WDnNL) <- append("WDnNL", class(WDnNL))
-
-save(WDnNL, file = "data/WDnNL.rda", compress = "xz")
-
-
-# Condensed Database
 
 Taxonomy_keyd <- Taxonomy %>%
   left_join(
@@ -70,16 +50,35 @@ Taxonomy_keyd <- Taxonomy %>%
              AcceptedSpecies = Species),
     by = "AcceptedSpeciesID")
 
+WDnNL <- Records %>%
+  left_join(Taxonomy_keyd, by = c("SpeciesID" = "SpeciesID")) %>%
+  left_join(Regions, by = c("AreaID" = "AreaID")) %>%
+  left_join(Realms, by = c("RealmID" = "RealmID")) %>%
+  left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
+  select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
+
+
+
+class(WDnNL) <- append("WDnNL", class(WDnNL))
+
+save(WDnNL, file = "data/WDnNL.rda", compress = "xz")
+
+
+# Condensed Database
+
 Taxonomy_keyd <-
   Taxonomy_keyd %>% select(SpeciesID, AcceptedSpeciesID, AcceptedSpecies)
 
-RankedObservations <- Records %>%
+Observations <- Records %>%
   inner_join(Taxonomy_keyd, by = "SpeciesID") %>%
   inner_join(Regions, by = "AreaID") %>%
   inner_join(Realms, by = "RealmID") %>%
   inner_join(References, by = "ReferenceID") %>%
+  select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
+
+RankedObservations <- Observations %>%
   filter(Introduced == 1 | is.na(Introduced)) %>%
-  group_by(AcceptedSpeciesID, AreaName, Realm) %>%
+  group_by(AcceptedSpecies, AreaName, Realm) %>%
   mutate(RefRank = row_number(desc(ReferenceYear))) %>%
   ungroup() %>%
   group_by(AcceptedSpecies, AreaName, Realm) %>%
@@ -88,9 +87,7 @@ RankedObservations <- Records %>%
 
 UniqueRecords <- RankedObservations %>%
   transmute(
-    SpeciesID = AcceptedSpeciesID,
     Species = AcceptedSpecies,
-    AreaID,
     AreaName,
     Continent,
     Realm,
@@ -104,8 +101,8 @@ pick_first_non_na <- function(value, rank) {
 }
 
 ObservationsSummary <- RankedObservations %>%
-  group_by(SpeciesID, AcceptedSpecies,
-           AreaID, AreaName, Continent, Realm, First_Observation) %>%
+  group_by(AcceptedSpecies,
+           AreaName, Continent, Realm, First_Observation) %>%
 
   summarise(
     Cryptogenic = pick_first_non_na(Cryptogenic, RefRank),
@@ -118,21 +115,26 @@ ObservationsSummary <- RankedObservations %>%
     Latest_Reference_Year = ReferenceYear[RefRank == 1][1],
     .groups = "drop")
 
-CondensedDatabase <- ObservationsSummary %>%
+CondensedWDnNL <- ObservationsSummary %>%
   mutate(
     First_Observation = if_else(
       is.infinite(First_Observation),
       NA_real_,
       First_Observation))
 
-class(CondensedDatabase) <- c("CondensedWDnNL", "data.frame")
-save(CondensedDatabase, file = "data/CondensedDatabase.rda", compress = "xz")
+class(CondensedWDnNL) <- c("CondensedWDnNL", "data.frame")
+save(CondensedWDnNL, file = "data/CondensedWDnNL.rda", compress = "xz")
 
+NativesWDnNL <- Natives
+RealmsWDnNL <- Realms
+RecordsWDnNL <- Records
+ReferencesWDnNL <- References
+RegionsWDnNL <- Regions
+TaxonomyWDnNL <- Taxonomy
 
 usethis::use_data(
-  #CondensedDatabase,
-  Natives, Realms, Records,
-  References, Regions, Taxonomy, NativeDatabase,
+  NativesWDnNL, RealmsWDnNL, RecordsWDnNL,
+  ReferencesWDnNL, RegionsWDnNL, TaxonomyWDnNL,
   overwrite = TRUE, compress = "xz")
 
 

@@ -5,17 +5,17 @@
 \alias{WDnNL}
 \title{WDnNL - Worldwide Database of non-Native Lepidoptera}
 \format{
-A data frame with 16067 records and 19 variables:
+A data frame with 11916 records and 18 variables:
 
-Database Variables (1): RecordID
+Database Variables (1): RecordID;
 
-Introduction Variables (7): Cryptogenic, Intentional Release, Introduced, Dispersal, Established, Eradicated, First Record Year
+Introduction Variables (7): Cryptogenic, Intentional Release, Introduced, Dispersal, Established, Eradicated, First Record Year;
 
-Taxonomic variables (4): Species, GBIF Accepted Species, Genus, Family;
+Taxonomic variables (3): Species as in the Original Record, Species as Accepted in GBIF, Genus, Family;
 
-Distribution Variables (5): Region, Country, Continent, Sub-Continent, Biogeographic Realm
+Distribution Variables (4): Region, Country, Continent, Biogeographic Realm;
 
-Reference Data (2): Reference Citation, Reference Year
+Reference Data (2): Reference Citation, Reference Year;
 
 \describe{
   \item{RecordID}{integer; unique record id}
@@ -26,21 +26,20 @@ Reference Data (2): Reference Citation, Reference Year
   \item{Established}{binary; record of established population}
   \item{Eradicated}{binary; record of eradication of previously established population}
   \item{Year}{integer; year of first record}
-  \item{Species}{character; species name at record}
+  \item{Species}{character; species name as in the original source}
   \item{AcceptedSpecies}{character; species name accepted by GBIF}
   \item{Genus}{character; species taxonomic genus}
   \item{Family}{character; species taxonomic family}
   \item{AreaName}{character; record region}
   \item{Country}{character; record country}
   \item{Continent}{character; record continent}
-  \item{SubContinent}{character; record sub-continent}
   \item{Realm}{character; record biogeographic realm}
   \item{BibliographicReference}{character; original record reference}
   \item{ReferenceYear}{integer; reference year}
 }
 }
 \source{
-WDNnL SQLite database (check package source reference)
+WDNnL database (check package source reference)
 }
 \usage{
 WDnNL
