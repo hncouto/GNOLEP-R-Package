@@ -2,16 +2,18 @@
 % Please edit documentation in R/Summary_WDnNL.R
 \name{print.summary.WDnNL}
 \alias{print.summary.WDnNL}
-\title{Title}
+\title{Print method for WDnNL summary}
 \usage{
 \method{print}{summary.WDnNL}(x, ...)
 }
 \arguments{
 \item{x}{A summary.WDnNL object}
+
+\item{...}{Not Used}
 }
 \value{
-A printed summary of the dataframe
+A printed summary of the WDnNL dataframe
 }
 \description{
-Title
+Print method for WDnNL summary
 }

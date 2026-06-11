@@ -1,6 +1,5 @@
 #' Full WDnNL
 #'
-#' @param
 #'
 #' @returns Import all databse tables at once.
 #' @export

@@ -120,12 +120,12 @@ summary.WDnNL <- function(
 }
 
 
-#' Title
+#' Print method for WDnNL summary
 #'
 #' @param x A summary.WDnNL object
-#' @param ...
+#' @param ... Not Used
 #'
-#' @returns A printed summary of the dataframe
+#' @returns A printed summary of the WDnNL dataframe
 #' @export
 print.summary.WDnNL <- function(x, ...) {
 
@@ -208,12 +208,23 @@ print.summary.WDnNL <- function(x, ...) {
 }
 
 
-#' Title
+#' Summary of the CondensedWDnNL as a summary.CondensedWDnNL object
 #'
-#' @param x A CondensedWDnNL object
-#' @param ...
-#'
-#' @returns A printed summary of the dataframe
+#' @param object A CondensedWDnNL dataframe
+#' @param include_non_established TRUE or FALSE - define if keep only established species or all
+#' @param include_absent_establishment_data TRUE or FALSE - define if keep records with NA's on establishement data
+#' @param include_intentional TRUE or FALSE - define if keep records from intentional release
+#' @param include_absent_intentional_data TRUE or FALSE - define if keep records with NA's on intentional release
+#' @param include_cryptogenic TRUE or FALSE - define if keep records with cryptogenic origin
+#' @param include_absent_cryptogenic_data TRUE or FALSE - define if keep records with NA's on cryptogenic origin
+#' @param include_non_Introduced TRUE or FALSE - define if keep species that arrived through natural dispersal
+#' @param include_absent_Introduced_data TRUE or FALSE - define if keep records with NA's on introduction origin
+#' @param include_eradicated_data TRUE or FALSE - define if keep records with NA's on erradicated
+#' @param include_eradication_records TRUE or FALSE - define if keep records with successful erradication
+#' @param include_records_pre_eradication TRUE or FALSE - define if keep records of introductions after erradications
+#' @param continent_list A list of Continents
+#' @param realm_list A list of Biogeographic Realms
+#' @returns A printed summary of the CondensedWDnNL
 #' @export
 
 summary.CondensedWDnNL <- function(
@@ -274,10 +285,11 @@ summary.CondensedWDnNL <- function(
   return(result)
 }
 
-#' Title
+
+#' Print method for CondensedWDnNL summary
 #'
-#' @param x A summary.WDnNL object
-#' @param ...
+#' @param x A summary.CondensedWDnNL object
+#' @param ... Not Used
 #'
 #' @returns A printed summary of the dataframe
 #' @export

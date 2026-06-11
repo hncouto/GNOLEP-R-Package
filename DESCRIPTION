@@ -29,8 +29,7 @@ Authors@R: c(
     role = c("aut", "col")
     )
   )
-Description: Access directly through R to the WDnNL.
-    Continuation lines should be indented.
+Description: Access directly through R to the up-to-date version of the Worldwide Database of non-Native Lepidoptera (WDnNL) and allow for plot and extract summary data.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true

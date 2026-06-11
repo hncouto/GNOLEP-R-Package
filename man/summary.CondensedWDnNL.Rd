@@ -2,7 +2,7 @@
 % Please edit documentation in R/Summary_WDnNL.R
 \name{summary.CondensedWDnNL}
 \alias{summary.CondensedWDnNL}
-\title{Title}
+\title{Summary of the CondensedWDnNL as a summary.CondensedWDnNL object}
 \usage{
 \method{summary}{CondensedWDnNL}(
   object,
@@ -22,11 +22,37 @@
 )
 }
 \arguments{
-\item{x}{A CondensedWDnNL object}
+\item{object}{A CondensedWDnNL dataframe}
+
+\item{include_non_established}{TRUE or FALSE - define if keep only established species or all}
+
+\item{include_absent_establishment_data}{TRUE or FALSE - define if keep records with NA's on establishement data}
+
+\item{include_intentional}{TRUE or FALSE - define if keep records from intentional release}
+
+\item{include_absent_intentional_data}{TRUE or FALSE - define if keep records with NA's on intentional release}
+
+\item{include_cryptogenic}{TRUE or FALSE - define if keep records with cryptogenic origin}
+
+\item{include_absent_cryptogenic_data}{TRUE or FALSE - define if keep records with NA's on cryptogenic origin}
+
+\item{include_non_Introduced}{TRUE or FALSE - define if keep species that arrived through natural dispersal}
+
+\item{include_absent_Introduced_data}{TRUE or FALSE - define if keep records with NA's on introduction origin}
+
+\item{include_eradicated_data}{TRUE or FALSE - define if keep records with NA's on erradicated}
+
+\item{include_eradication_records}{TRUE or FALSE - define if keep records with successful erradication}
+
+\item{include_records_pre_eradication}{TRUE or FALSE - define if keep records of introductions after erradications}
+
+\item{continent_list}{A list of Continents}
+
+\item{realm_list}{A list of Biogeographic Realms}
 }
 \value{
-A printed summary of the dataframe
+A printed summary of the CondensedWDnNL
 }
 \description{
-Title
+Summary of the CondensedWDnNL as a summary.CondensedWDnNL object
 }
