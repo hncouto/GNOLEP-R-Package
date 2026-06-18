@@ -36,7 +36,8 @@ LazyData: true
 Depends: 
     R (>= 3.5),
     dplyr,
-    usethis
+    usethis,
+    httr
 Imports:
     methods
 Config/roxygen2/version: 8.0.0
