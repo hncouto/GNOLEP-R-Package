@@ -177,5 +177,6 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
     message(sprintf("File saved to '%s'.", destination_file))
     return(invisible(data))}
 
-  data}
+  assign(table, data, envir = .GlobalEnv)
+  invisible(data)}
 
