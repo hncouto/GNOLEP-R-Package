@@ -39,6 +39,13 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
 
   base_tables <- c("NativesWDnNL", "RealmsWDnNL", "RecordsWDnNL",
     "ReferencesWDnNL", "RegionsWDnNL", "TaxonomyWDnNL")
+  csv_names <- c(
+    NativesWDnNL = "Obs_NativesDB.csv",
+    RealmsWDnNL = "Geography_Realms.csv",
+    RecordsWDnNL = "Obs_Records_DB.csv",
+    ReferencesWDnNL = "Base_References.csv",
+    RegionsWDnNL = "Geography_Regions.csv",
+    TaxonomyWDnNL = "Base_Taxonomy.csv")
 
 
   if (!table %in% valid_tables) {
@@ -55,46 +62,47 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
     tmp <- tempfile(fileext = ".csv")
     on.exit(unlink(tmp), add = TRUE)
 
+    filename <- csv_names[[tbl]]
+
     raw_url <- paste0(
       "https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,
-      "/", tbl, ".csv")
+      "/", tbl, URLencode(filename))
 
-    dl <- httr::GET(raw_url, httr::write_disk(tmp, overwrite = TRUE))
+    dl <- GET(raw_url, write_disk(tmp, overwrite = TRUE))
 
     ###### While database is private it will use this (will be delete when public):
-    if (httr::status_code(dl) != 200) {
-      file_path <- utils::URLencode(
-        paste0("Previous Versions/V", version, "/", tbl, ".csv"))
+    if (status_code(dl) != 200) {
+      file_path <- URLencode(
+        paste0("Previous Versions/V", version, "/", filename))
 
       api_url <- paste0(
-        "https://api.github.com/repos/hncouto/",
-        "Worldwide_Database_on_Non-native_Lepidoptera/contents/",
+        "https://api.github.com/repos/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/contents/",
         file_path)
 
-      res <- httr::GET(
+      res <- GET(
         api_url,
-        httr::add_headers(Authorization = paste("Bearer", Sys.getenv("GITHUB_PAT"))))
+        add_headers(Authorization = paste("Bearer", Sys.getenv("GITHUB_PAT"))))
 
-      if (httr::status_code(res) == 404) {
+      if (status_code(res) == 404) {
         stop(sprintf("Version '%s' is not available or table '%s' does not exist in that version.",version, tbl), call. = FALSE)}
 
-      if (httr::status_code(res) != 200) {stop(sprintf("GitHub API returned status %s.", httr::status_code(res)), call. = FALSE)}
+      if (status_code(res) != 200) {stop(sprintf("GitHub API returned status %s.", httr::status_code(res)), call. = FALSE)}
 
-      download_url <- httr::content(res, as = "parsed")$download_url
+      download_url <- content(res, as = "parsed")$download_url
       if (is.null(download_url)) {stop("Could not retrieve download URL from GitHub API.", call. = FALSE)}
 
-      dl <- httr::GET(
+      dl <- GET(
         download_url,
-        httr::add_headers(Authorization = paste("Bearer", Sys.getenv("GITHUB_PAT"))),
-        httr::write_disk(tmp, overwrite = TRUE))
+        add_headers(Authorization = paste("Bearer", Sys.getenv("GITHUB_PAT"))),
+        write_disk(tmp, overwrite = TRUE))
 
-      if (httr::status_code(dl) != 200) {
-        stop(sprintf("Failed to download '%s' (HTTP %s).", tbl, httr::status_code(dl)),
+      if (status_code(dl) != 200) {
+        stop(sprintf("Failed to download '%s' (HTTP %s).", tbl, status_code(dl)),
              call. = FALSE)}}
 
     #########
 
-    utils::read.csv(tmp, check.names = FALSE, encoding = "UTF-8")}
+    read.csv(tmp, check.names = FALSE, encoding = "UTF-8")}
 
   build_WDnNL <- function(tables) {
     Taxonomy_keyd <- tables$TaxonomyWDnNL %>%
@@ -105,7 +113,7 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
                  AcceptedSpecies = Species),
         by = "AcceptedSpeciesID")
 
-    WDnNL <- RecordsWDnNL %>%
+    WDnNL <- tables$RecordsWDnNL %>%
       left_join(Taxonomy_keyd, by = "SpeciesID") %>%
       left_join(tables$RegionsWDnNL, by = "AreaID") %>%
       left_join(tables$RealmsWDnNL, by = "RealmID") %>%
