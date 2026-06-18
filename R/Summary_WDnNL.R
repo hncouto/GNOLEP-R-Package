@@ -128,6 +128,7 @@ summary.WDnNL <- function(
 #' @returns A printed summary of the WDnNL dataframe
 #' @export
 print.summary.WDnNL <- function(x, ...) {
+  if (inherits(x, "summary.CondensedWDnNL")) return(invisible(x))
 
   truncate <- function(x, max_chars = 65) {
     x <- as.character(x)

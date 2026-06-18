@@ -71,6 +71,10 @@ plot.WDnNL <- function(
   if (!include_eradication_records) {object <- object[object$Eradicated != 1 | is.na(object$Eradicated), ]}
 
   if(nrow(object) == 0) {stop("Data table is empty.\n")}
+  if (!"Year" %in% names(object)) {
+    if (!"First_Observation" %in% names(object)) {
+      stop("Data table must contain either a 'Year' or 'First_Observation' column.\n")}
+    names(object)[names(object) == "First_Observation"] <- "Year"}
 
   if (OverTime == TRUE && ContinentalPlot == FALSE && RealmPlot == FALSE){
     cum_WDnNL_total <- object %>%

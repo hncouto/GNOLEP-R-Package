@@ -118,7 +118,7 @@ CondensedWDnNL <- ObservationsSummary %>%
       NA_real_,
       First_Observation))
 
-class(CondensedWDnNL) <- c("CondensedWDnNL", "data.frame")
+class(CondensedWDnNL) <- c("CondensedWDnNL", "WDnNL", "data.frame")
 save(CondensedWDnNL, file = "data/CondensedWDnNL.rda", compress = "xz")
 
 NativesWDnNL <- Natives
