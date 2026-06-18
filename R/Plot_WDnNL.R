@@ -190,20 +190,25 @@ plot.WDnNL <- function(
     message("Please select only one of ContinentalPlot or RealmPlot = TRUE.")}
 
   if (OverTime == FALSE && ContinentalPlot == TRUE && RealmPlot == FALSE) {
-
     continent_counts <- object %>%
       filter(!is.na(Continent)) %>%
       count(Continent)
+
+    max_label_width <- max(strwidth(continent_counts$Continent, units = "inches"))
+    bottom_margin <- max(5, ceiling(max_label_width / par("csi")) + 2)
+    oldpar <- par(no.readonly = TRUE)
+    par(mar = c(bottom_margin, 4, 4, 2) + 0.1)
 
     barplot(
       continent_counts$n,
       names.arg = continent_counts$Continent,
       col = "black",
-      xlab = "Continent",
       ylab = "Number of records",
       main = "Records per Continent",
       las = 2
-    )}
+    )
+
+    par(oldpar)}
 
   if (OverTime == FALSE && ContinentalPlot == FALSE && RealmPlot == TRUE) {
 
@@ -211,14 +216,20 @@ plot.WDnNL <- function(
       filter(!is.na(Realm)) %>%
       count(Realm)
 
+    max_label_width <- max(strwidth(realm_counts$Realm, units = "inches"))
+    bottom_margin <- max(5, ceiling(max_label_width / par("csi")) + 2)
+    oldpar <- par(no.readonly = TRUE)
+    par(mar = c(bottom_margin, 4, 4, 2) + 0.1)
+
     barplot(
       realm_counts$n,
       names.arg = realm_counts$Realm,
       col = "black",
-      xlab = "Realm",
       ylab = "Number of records",
       main = "Records per Realm",
       las = 2
-    )}
+    )
+
+    par(oldpar)}
 
 }
