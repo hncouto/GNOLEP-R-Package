@@ -21,10 +21,7 @@ library(gh)
 library(jsonlite)
 
 read_private_csv <- function(path, sep = ",") {
-  res <- gh(
-    "/repos/{owner}/{repo}/contents/{path}",
-    owner = "hncouto",
-    repo = "Worldwide_Database_on_Non-native_Lepidoptera",
+  res <- gh("/repos/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/contents/{path}",
     path = path)
   tmp <- tempfile(fileext = ".csv")
   writeBin(base64_dec(res$content), tmp)
