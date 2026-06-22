@@ -72,9 +72,9 @@ plot.WDnNL <- function(
 
   if(nrow(object) == 0) {stop("Data table is empty.\n")}
   if (!"Year" %in% names(object)) {
-    if (!"First_Observation" %in% names(object)) {
-      stop("Data table must contain either a 'Year' or 'First_Observation' column.\n")}
-    names(object)[names(object) == "First_Observation"] <- "Year"}
+    if (!"First_Record" %in% names(object)) {
+      stop("Data table must contain either a 'Year' or 'First_Record' column.\n")}
+    names(object)[names(object) == "First_Record"] <- "Year"}
 
   if (OverTime == TRUE && ContinentalPlot == FALSE && RealmPlot == FALSE){
     cum_WDnNL_total <- object %>%

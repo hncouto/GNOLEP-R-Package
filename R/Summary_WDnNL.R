@@ -266,7 +266,7 @@ summary.CondensedWDnNL <- function(
   total_realms <- length(unique(object$Realm))
   top_species <- names(head(sort(table(object$AcceptedSpecies), decreasing = TRUE), 1))
   top_regions   <- names(head(sort(table(object$AreaName), decreasing = TRUE), 1))
-  oldest_record_year <- min(object$First_Observation, na.rm = TRUE)
+  oldest_record_year <- min(object$First_Record, na.rm = TRUE)
   most_prevalent_species_records <- as.integer(head(sort(table(object$AcceptedSpecies), decreasing = TRUE), 1))
   most_prevalent_region_records <- as.integer(head(sort(table(object$AreaName), decreasing = TRUE), 1))
 

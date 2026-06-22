@@ -146,11 +146,11 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
       mutate(RefRank = row_number(desc(ReferenceYear))) %>%
       ungroup() %>%
       group_by(AcceptedSpecies, AreaName, Realm) %>%
-      mutate(First_Observation = min(Year, na.rm = TRUE)) %>%
+      mutate(First_Record = min(Year, na.rm = TRUE)) %>%
       ungroup()
 
     ObservationsSummary <- RankedObservations %>%
-      group_by(AcceptedSpecies, AreaName, Continent, Realm, First_Observation) %>%
+      group_by(AcceptedSpecies, AreaName, Continent, Realm, First_Record) %>%
       summarise(Cryptogenic = pick_first_non_na(Cryptogenic, RefRank),
                 Dispersal = pick_first_non_na(Dispersal, RefRank),
                 Eradicated = pick_first_non_na(Eradicated, RefRank),
@@ -161,8 +161,8 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
                 Latest_Reference_Year = ReferenceYear[RefRank == 1][1],
           .groups = "drop")
     CondensedWDnNL <- ObservationsSummary %>%
-      mutate(First_Observation = dplyr::if_else(is.infinite(First_Observation),NA_real_,
-            First_Observation))
+      mutate(First_Record = dplyr::if_else(is.infinite(First_Record),NA_real_,
+            First_Record))
     class(CondensedWDnNL) <- c("CondensedWDnNL", "data.frame")
     CondensedWDnNL}
 

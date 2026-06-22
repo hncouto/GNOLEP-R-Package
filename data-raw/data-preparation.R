@@ -78,7 +78,7 @@ RankedObservations <- Observations %>%
   mutate(RefRank = row_number(desc(ReferenceYear))) %>%
   ungroup() %>%
   group_by(AcceptedSpecies, AreaName, Realm) %>%
-  mutate(First_Observation = min(Year, na.rm = TRUE)) %>%
+  mutate(First_Record = min(Year, na.rm = TRUE)) %>%
   ungroup()
 
 UniqueRecords <- RankedObservations %>%
@@ -87,7 +87,7 @@ UniqueRecords <- RankedObservations %>%
     AreaName,
     Continent,
     Realm,
-    First_Observation) %>%
+    First_Record) %>%
   distinct()
 
 pick_first_non_na <- function(value, rank) {
@@ -98,7 +98,7 @@ pick_first_non_na <- function(value, rank) {
 
 ObservationsSummary <- RankedObservations %>%
   group_by(AcceptedSpecies,
-           AreaName, Continent, Realm, First_Observation) %>%
+           AreaName, Continent, Realm, First_Record) %>%
 
   summarise(
     Cryptogenic = pick_first_non_na(Cryptogenic, RefRank),
@@ -113,10 +113,10 @@ ObservationsSummary <- RankedObservations %>%
 
 CondensedWDnNL <- ObservationsSummary %>%
   mutate(
-    First_Observation = if_else(
-      is.infinite(First_Observation),
+    First_Record = if_else(
+      is.infinite(First_Record),
       NA_real_,
-      First_Observation))
+      First_Record))
 
 class(CondensedWDnNL) <- c("CondensedWDnNL", "WDnNL", "data.frame")
 save(CondensedWDnNL, file = "data/CondensedWDnNL.rda", compress = "xz")
