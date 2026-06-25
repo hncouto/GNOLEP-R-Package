@@ -21,7 +21,7 @@ Reference Data (2): Latest Reference (in the Complete database), Latest Referenc
   \item{AreaName}{character; record region}
   \item{Continent}{character; record continent}
   \item{Realm}{character; record biogeographic realm}
-  \item{First_Observation}{integer; oldest first record}
+  \item{First_Record}{integer; oldest first record}
   \item{Cryptogenic}{binary; Cryptogenic Origin}
   \item{Dispersal}{binary; Arrival by dispersal}
   \item{Eradicated}{binary; Species previously established but currently eradicated}
