@@ -1,6 +1,6 @@
-#' Summarize WDnNL
+#' Summarize GNOLEP
 #'
-#' @param object A WDnNL dataframe
+#' @param object A GNOLEP dataframe
 #' @param include_non_established TRUE or FALSE - define if keep only established species or all
 #' @param include_absent_establishment_data TRUE or FALSE - define if keep records with NA's on establishement data
 #' @param include_intentional TRUE or FALSE - define if keep records from intentional release
@@ -17,20 +17,20 @@
 #' @param continent_list A list of Continents
 #' @param realm_list A list of Biogeographic Realms
 #'
-#' @returns Summary of the dataframe as a summary.WDnNL object
+#' @returns Summary of the dataframe as a summary.GNOLEP object
 #' @export
 #'
 #' @examples
-#' # summary(WDnNL)
+#' # summary(GNOLEP)
 #'
-#' # summary(WDnNL,
+#' # summary(GNOLEP,
 #'           include_non_established = FALSE,
 #'           include_absent_establishment_data = FALSE,
 #'           include_cryptogenic = FALSE,
 #'           include_non_Introduced = FALSE,
 #'           family_list = c("Noctuidae", "Gelechiidae", "Tortricidae"))
 #'
-summary.WDnNL <- function(
+summary.GNOLEP <- function(
     object,
     include_non_established = TRUE,
     include_absent_establishment_data = TRUE,
@@ -115,20 +115,20 @@ summary.WDnNL <- function(
                   most_prevalent_region_records = most_prevalent_region_records,
                   most_prevalent_reference_records = most_prevalent_reference_records)
 
-  class(result) <- "summary.WDnNL"
+  class(result) <- "summary.GNOLEP"
   return(result)
 }
 
 
-#' Print method for WDnNL summary
+#' Print method for GNOLEP summary
 #'
-#' @param x A summary.WDnNL object
+#' @param x A summary.GNOLEP object
 #' @param ... Not Used
 #'
-#' @returns A printed summary of the WDnNL dataframe
+#' @returns A printed summary of the GNOLEP dataframe
 #' @export
-print.summary.WDnNL <- function(x, ...) {
-  if (inherits(x, "summary.CondensedWDnNL")) return(invisible(x))
+print.summary.GNOLEP <- function(x, ...) {
+  if (inherits(x, "summary.CondensedGNOLEP")) return(invisible(x))
 
   truncate <- function(x, max_chars = 65) {
     x <- as.character(x)
@@ -187,7 +187,7 @@ print.summary.WDnNL <- function(x, ...) {
     row.names = NULL)
 
   cat("\n=============================================================================================\n")
-  cat("                                     WDnNL summary\n")
+  cat("                                     GNOLEP summary\n")
   cat("=============================================================================================\n")
 
   cat("\n---------------------------------------------------------------------------------------------\n")
@@ -209,9 +209,9 @@ print.summary.WDnNL <- function(x, ...) {
 }
 
 
-#' Summary of the CondensedWDnNL as a summary.CondensedWDnNL object
+#' Summary of the CondensedGNOLEP as a summary.CondensedGNOLEP object
 #'
-#' @param object A CondensedWDnNL dataframe
+#' @param object A CondensedGNOLEP dataframe
 #' @param include_non_established TRUE or FALSE - define if keep only established species or all
 #' @param include_absent_establishment_data TRUE or FALSE - define if keep records with NA's on establishement data
 #' @param include_intentional TRUE or FALSE - define if keep records from intentional release
@@ -225,10 +225,10 @@ print.summary.WDnNL <- function(x, ...) {
 #' @param include_records_pre_eradication TRUE or FALSE - define if keep records of introductions after erradications
 #' @param continent_list A list of Continents
 #' @param realm_list A list of Biogeographic Realms
-#' @returns A printed summary of the CondensedWDnNL
+#' @returns A printed summary of the CondensedGNOLEP
 #' @export
 
-summary.CondensedWDnNL <- function(
+summary.CondensedGNOLEP <- function(
     object,
     include_non_established = TRUE,
     include_absent_establishment_data = TRUE,
@@ -282,20 +282,20 @@ summary.CondensedWDnNL <- function(
                   most_prevalent_region_records = most_prevalent_region_records)
 
 
-  class(result) <- "summary.CondensedWDnNL"
+  class(result) <- "summary.CondensedGNOLEP"
   return(result)
 }
 
 
-#' Print method for CondensedWDnNL summary
+#' Print method for CondensedGNOLEP summary
 #'
-#' @param x A summary.CondensedWDnNL object
+#' @param x A summary.CondensedGNOLEP object
 #' @param ... Not Used
 #'
 #' @returns A printed summary of the dataframe
 #' @export
 
-print.summary.CondensedWDnNL <- function(x, ...) {
+print.summary.CondensedGNOLEP <- function(x, ...) {
 
   truncate <- function(x, max_chars = 65) {
     x <- as.character(x)
@@ -338,7 +338,7 @@ print.summary.CondensedWDnNL <- function(x, ...) {
     row.names = NULL)
 
   cat("\n=============================================================================================\n")
-  cat("                                     WDnNL summary\n")
+  cat("                                     GNOLEP summary\n")
   cat("=============================================================================================\n")
 
   cat("\n---------------------------------------------------------------------------------------------\n")

@@ -1,51 +1,51 @@
-#' All Individual WDnNL tables imports
+#' All Individual GNOLEP tables imports
 #'
 #'
 #' @returns Import all individual database tables at once.
 #' @export
 #' @examples
-#' # full_WDnNL()
+#' # full_GNOLEP()
 #'
-individual_WDnNL <- function() {
-  data(NativesWDnNL)
-  data(RealmsWDnNL)
-  data(RecordsWDnNL)
-  data(ReferencesWDnNL)
-  data(RegionsWDnNL)
-  data(TaxonomyWDnNL)}
+individual_GNOLEP <- function() {
+  data(NativesGNOLEP)
+  data(RealmsGNOLEP)
+  data(RecordsGNOLEP)
+  data(ReferencesGNOLEP)
+  data(RegionsGNOLEP)
+  data(TaxonomyGNOLEP)}
 
 
 library(gh)
 library(jsonlite)
 
-#' Import older versions of WDnNL
+#' Import older versions of GNOLEP
 #'
 #'
 #' @returns Import all database tables at once.
 #' @export
 #' @examples
 #'
-#' # WDnNL_extract(NativesWDnNL, version = 0)
-#' # WDnNL_extract(ReferencesWDnNL, version = 0)
-#' # WDnNL_extract(WDnNL, version = 0)
-#' # WDnNL_extract(CondensedWDnNL, version = 0)
+#' # GNOLEP_extract(NativesGNOLEP, version = 0)
+#' # GNOLEP_extract(ReferencesGNOLEP, version = 0)
+#' # GNOLEP_extract(GNOLEP, version = 0)
+#' # GNOLEP_extract(CondensedGNOLEP, version = 0)
 #'
 #'
 #'
-WDnNL_extract <- function(table, version = "", destination_file = NULL) {
+GNOLEP_extract <- function(table, version = "", destination_file = NULL) {
 
-  valid_tables <- c("NativesWDnNL", "RealmsWDnNL", "RecordsWDnNL", "ReferencesWDnNL",
-    "RegionsWDnNL", "TaxonomyWDnNL", "WDnNL", "CondensedWDnNL")
+  valid_tables <- c("NativesGNOLEP", "RealmsGNOLEP", "RecordsGNOLEP", "ReferencesGNOLEP",
+    "RegionsGNOLEP", "TaxonomyGNOLEP", "GNOLEP", "CondensedGNOLEP")
 
-  base_tables <- c("NativesWDnNL", "RealmsWDnNL", "RecordsWDnNL",
-    "ReferencesWDnNL", "RegionsWDnNL", "TaxonomyWDnNL")
+  base_tables <- c("NativesGNOLEP", "RealmsGNOLEP", "RecordsGNOLEP",
+    "ReferencesGNOLEP", "RegionsGNOLEP", "TaxonomyGNOLEP")
   csv_names <- c(
-    NativesWDnNL = "Obs_NativesDB.csv",
-    RealmsWDnNL = "Geography_Realms.csv",
-    RecordsWDnNL = "Obs_Records_DB.csv",
-    ReferencesWDnNL = "Base_References.csv",
-    RegionsWDnNL = "Geography_Regions.csv",
-    TaxonomyWDnNL = "Base_Taxonomy.csv")
+    NativesGNOLEP = "Obs_NativesDB.csv",
+    RealmsGNOLEP = "Geography_Realms.csv",
+    RecordsGNOLEP = "Obs_Records_DB.csv",
+    ReferencesGNOLEP = "Base_References.csv",
+    RegionsGNOLEP = "Geography_Regions.csv",
+    TaxonomyGNOLEP = "Base_Taxonomy.csv")
 
 
   if (!table %in% valid_tables) {
@@ -65,7 +65,7 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
     filename <- csv_names[[tbl]]
 
     raw_url <- paste0(
-      "https://raw.githubusercontent.com/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,
+      "https://raw.githubusercontent.com/hncouto/Global_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,
       "/", tbl, URLencode(filename))
 
     dl <- GET(raw_url, write_disk(tmp, overwrite = TRUE))
@@ -76,7 +76,7 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
         paste0("Previous Versions/V", version, "/", filename))
 
       api_url <- paste0(
-        "https://api.github.com/repos/hncouto/Worldwide_Database_on_Non-native_Lepidoptera/contents/",
+        "https://api.github.com/repos/hncouto/Global_Database_on_Non-native_Lepidoptera/contents/",
         file_path)
 
       res <- GET(
@@ -104,40 +104,40 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
 
     read.csv(tmp, check.names = FALSE, encoding = "UTF-8")}
 
-  build_WDnNL <- function(tables) {
-    Taxonomy_keyd <- tables$TaxonomyWDnNL %>%
+  build_GNOLEP <- function(tables) {
+    Taxonomy_keyd <- tables$TaxonomyGNOLEP %>%
       left_join(
-        tables$TaxonomyWDnNL %>%
+        tables$TaxonomyGNOLEP %>%
           select(SpeciesID, Species) %>%
           rename(AcceptedSpeciesID = SpeciesID,
                  AcceptedSpecies = Species),
         by = "AcceptedSpeciesID")
 
-    WDnNL <- tables$RecordsWDnNL %>%
+    GNOLEP <- tables$RecordsGNOLEP %>%
       left_join(Taxonomy_keyd, by = "SpeciesID") %>%
-      left_join(tables$RegionsWDnNL, by = "AreaID") %>%
-      left_join(tables$RealmsWDnNL, by = "RealmID") %>%
-      left_join(tables$ReferencesWDnNL, by = "ReferenceID") %>%
+      left_join(tables$RegionsGNOLEP, by = "AreaID") %>%
+      left_join(tables$RealmsGNOLEP, by = "RealmID") %>%
+      left_join(tables$ReferencesGNOLEP, by = "ReferenceID") %>%
       select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
-    class(WDnNL) <- append("WDnNL", class(WDnNL))
-    WDnNL}
+    class(GNOLEP) <- append("GNOLEP", class(GNOLEP))
+    GNOLEP}
 
-  build_CondensedWDnNL <- function(tables) {
+  build_CondensedGNOLEP <- function(tables) {
     pick_first_non_na <- function(value, rank) {
       idx <- which(!is.na(value))
       if (length(idx) == 0) return(NA)
       value[idx[which.min(rank[idx])]]}
-    Taxonomy_keyd <- tables$TaxonomyWDnNL %>%
-      left_join(tables$TaxonomyWDnNL %>%
+    Taxonomy_keyd <- tables$TaxonomyGNOLEP %>%
+      left_join(tables$TaxonomyGNOLEP %>%
                   select(SpeciesID, Species) %>%
                   rename(AcceptedSpeciesID = SpeciesID,
                   AcceptedSpecies = Species), by = "AcceptedSpeciesID") %>%
       select(SpeciesID, AcceptedSpeciesID, AcceptedSpecies)
-    Observations <- tables$RecordsWDnNL %>%
+    Observations <- tables$RecordsGNOLEP %>%
       inner_join(Taxonomy_keyd, by = "SpeciesID") %>%
-      inner_join(tables$RegionsWDnNL, by = "AreaID") %>%
-      inner_join(tables$RealmsWDnNL, by = "RealmID") %>%
-      inner_join(tables$ReferencesWDnNL, by = "ReferenceID") %>%
+      inner_join(tables$RegionsGNOLEP, by = "AreaID") %>%
+      inner_join(tables$RealmsGNOLEP, by = "RealmID") %>%
+      inner_join(tables$ReferencesGNOLEP, by = "ReferenceID") %>%
       select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
 
     RankedObservations <- Observations %>%
@@ -160,17 +160,17 @@ WDnNL_extract <- function(table, version = "", destination_file = NULL) {
                 Latest_Reference = BibliographicReference[which.min(ifelse(RefRank == 1, 0, 1))][1],
                 Latest_Reference_Year = ReferenceYear[RefRank == 1][1],
           .groups = "drop")
-    CondensedWDnNL <- ObservationsSummary %>%
+    CondensedGNOLEP <- ObservationsSummary %>%
       mutate(First_Record = dplyr::if_else(is.infinite(First_Record),NA_real_,
             First_Record))
-    class(CondensedWDnNL) <- c("CondensedWDnNL", "data.frame")
-    CondensedWDnNL}
+    class(CondensedGNOLEP) <- c("CondensedGNOLEP", "data.frame")
+    CondensedGNOLEP}
 
   if (table %in% base_tables) {
     data <- fetch_csv(table)}
   else {message("Assembling '", table, "', this may take a while.")
     tables <- stats::setNames(lapply(base_tables, fetch_csv), base_tables)
-    data <- if (table == "WDnNL") build_WDnNL(tables) else build_CondensedWDnNL(tables)}
+    data <- if (table == "GNOLEP") build_GNOLEP(tables) else build_CondensedGNOLEP(tables)}
 
   if (!is.null(destination_file)) {
     utils::write.csv(data, file = destination_file, row.names = FALSE)

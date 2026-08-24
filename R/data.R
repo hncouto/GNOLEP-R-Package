@@ -1,10 +1,10 @@
 # R/data.R
 # -----------------------
 
-#' WDnNL - Worldwide Database of non-Native Lepidoptera
+#' GNOLEP - Worldwide Database of non-Native Lepidoptera
 #'
 #' A processed dataset containing the distribution `Records` joined with taxonomy, regions,
-#' realms and references. This dataset is produced directly from the WDNnL SQLite database
+#' realms and references. This dataset is produced directly from the GNOLEP SQLite database
 #' (see `data-raw/data-preparation.R`).
 #'
 #' @format A data frame with 11916 records and 18 variables:
@@ -39,10 +39,10 @@
 #'   \item{BibliographicReference}{character; original record reference}
 #'   \item{ReferenceYear}{integer; reference year}
 #' }
-#' @source WDNnL database (check package source reference)
-"WDnNL"
+#' @source GNOLEP database (check package source reference)
+"GNOLEP"
 
-#' Condensed WDnNL
+#' Condensed GNOLEP
 #'
 #' Condensed Database to one Species per Region.
 #' @format A data frame with 3857 entries and a total of 13 variables.
@@ -72,11 +72,11 @@
 #'   \item{Latest_Reference_Year}{integer; reference year}
 #' }
 #'
-"CondensedWDnNL"
+"CondensedGNOLEP"
 
 
 #' Taxonomy table
-#' @format A data frame with the Taxonomy table from the WDnNL.
+#' @format A data frame with the Taxonomy table from the GNOLEP.
 #'
 #'\describe{
 #'   \item{SpeciesID}{character; species unique identifier}
@@ -86,26 +86,26 @@
 #'   \item{Species}{character; species name}
 #'}
 #'
-"TaxonomyWDnNL"
+"TaxonomyGNOLEP"
 
 #' Regions table
 #' @format A data frame...
-"RegionsWDnNL"
+"RegionsGNOLEP"
 
 #' Realms table
 #' @format A data frame...
-"RealmsWDnNL"
+"RealmsGNOLEP"
 
 #' References table
 #' @format A data frame...
-"ReferencesWDnNL"
+"ReferencesGNOLEP"
 
 #' Records table
 #' @format A data frame...
-"RecordsWDnNL"
+"RecordsGNOLEP"
 
 #' Native Distribution Table
 #'
 #' Table with Native Distribution per Species
 #' @format A data frame with
-"NativesWDnNL"
+"NativesGNOLEP"

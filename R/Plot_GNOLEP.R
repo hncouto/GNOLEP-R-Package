@@ -1,6 +1,6 @@
 #' Plot Data Summaries
 #'
-#' @param object A WDnNL object dataframe
+#' @param object A GNOLEP object dataframe
 #' @param OverTime Time trends of First Records in the selected dataset. I selected alone it will return global trends
 #' @param ContinentalPlot Continental Trends in the selected dataset. If selected alone it will return a bar graph with data on continents.
 #' @param RealmPlot Realm Trends in the selected dataset. If selected alone it will return a bar graph with data on biogeographic realms.
@@ -20,13 +20,13 @@
 #' @param realm_list A list of Biogeographic Realms
 #'
 #'
-#' @returns Summary plots for the subset of WDnNL selected.
+#' @returns Summary plots for the subset of GNOLEP selected.
 #' @export
 #'
 #' @examples
-#' # plot(WDnNL)
+#' # plot(GNOLEP)
 #'
-#' # plot(WDnNL,
+#' # plot(GNOLEP,
 #'        OverTime = FALSE,
 #'        ContinentalPlot = TRUE,
 #'        include_non_established = FALSE,
@@ -36,7 +36,7 @@
 #'        family_list = c("Noctuidae", "Gelechiidae", "Tortricidae"))
 #'
 
-plot.WDnNL <- function(
+plot.GNOLEP <- function(
     object,
     OverTime = TRUE,
     ContinentalPlot = FALSE,
@@ -77,27 +77,27 @@ plot.WDnNL <- function(
     names(object)[names(object) == "First_Record"] <- "Year"}
 
   if (OverTime == TRUE && ContinentalPlot == FALSE && RealmPlot == FALSE){
-    cum_WDnNL_total <- object %>%
+    cum_GNOLEP_total <- object %>%
       filter(!is.na(Year)) %>%
       count(Year) %>%
       arrange(Year) %>%
       mutate(cumulative = cumsum(n))
 
-    plot(cum_WDnNL_total$Year,
-      cum_WDnNL_total$cumulative,
+    plot(cum_GNOLEP_total$Year,
+      cum_GNOLEP_total$cumulative,
       type = "l",      # both points and lines
       xlab = "Year",
       ylab = "Cumulative number of records",
-      ylim = c(0, 1.1 * max(cum_WDnNL_total$cumulative)))
+      ylim = c(0, 1.1 * max(cum_GNOLEP_total$cumulative)))
 
     if (interactive()) {readline(prompt = "Press [Enter] for next plot.")}
 
-    plot(cum_WDnNL_total$Year,
-      cum_WDnNL_total$n,
+    plot(cum_GNOLEP_total$Year,
+      cum_GNOLEP_total$n,
       type = "p",      # both points and lines
       xlab = "Year",
       ylab = "Yearly number of records",
-      ylim = c(0, 1.1 * max(cum_WDnNL_total$n)))}
+      ylim = c(0, 1.1 * max(cum_GNOLEP_total$n)))}
 
   if (OverTime == TRUE && ContinentalPlot == TRUE && RealmPlot == FALSE){
 
@@ -108,36 +108,36 @@ plot.WDnNL <- function(
 
       cat("\n--- Continent:", ct, "---\n")
       sub_object <- object[object$Continent == ct, ]
-      cum_WDnNL_continent <- sub_object %>%
+      cum_GNOLEP_continent <- sub_object %>%
         filter(!is.na(Year)) %>%
         count(Year) %>%
         arrange(Year) %>%
         mutate(cumulative = cumsum(n))
 
       # Skip empty continents safely
-      if (nrow(cum_WDnNL_continent) == 0) next
+      if (nrow(cum_GNOLEP_continent) == 0) next
 
       # ---- Plot 1: cumulative ----
-      plot(cum_WDnNL_continent$Year,
-        cum_WDnNL_continent$cumulative,
+      plot(cum_GNOLEP_continent$Year,
+        cum_GNOLEP_continent$cumulative,
         type = "l",
         col = "black",
         main = paste("Cumulative records -", ct),
         xlab = "Year",
         ylab = "Cumulative number of records",
-        ylim = c(0, 1.1 * max(cum_WDnNL_continent$cumulative, na.rm = TRUE)))
+        ylim = c(0, 1.1 * max(cum_GNOLEP_continent$cumulative, na.rm = TRUE)))
 
       if (interactive()) {readline(prompt = "Press [Enter] for next plot...")}
 
       # ---- Plot 2: yearly ----
-      plot(cum_WDnNL_continent$Year,
-        cum_WDnNL_continent$n,
+      plot(cum_GNOLEP_continent$Year,
+        cum_GNOLEP_continent$n,
         type = "p",
         col = "black",
         main = paste("Yearly records -", ct),
         xlab = "Year",
         ylab = "Yearly number of records",
-        ylim = c(0, 1.1 * max(cum_WDnNL_continent$n, na.rm = TRUE)))
+        ylim = c(0, 1.1 * max(cum_GNOLEP_continent$n, na.rm = TRUE)))
 
       if (interactive()) {readline(prompt = "Press [Enter] for next continent...")}}
     }
@@ -153,36 +153,36 @@ plot.WDnNL <- function(
 
         sub_object <- object[object$Realm == rl, ]
 
-        cum_WDnNL_realm <- sub_object %>%
+        cum_GNOLEP_realm <- sub_object %>%
           filter(!is.na(Year)) %>%
           count(Year) %>%
           arrange(Year) %>%
           mutate(cumulative = cumsum(n))
 
-        if (nrow(cum_WDnNL_realm) == 0) next
+        if (nrow(cum_GNOLEP_realm) == 0) next
 
         plot(
-          cum_WDnNL_realm$Year,
-          cum_WDnNL_realm$cumulative,
+          cum_GNOLEP_realm$Year,
+          cum_GNOLEP_realm$cumulative,
           type = "l",
           col = "black",
           main = paste("Cumulative records -", rl),
           xlab = "Year",
           ylab = "Cumulative number of records",
-          ylim = c(0, 1.1 * max(cum_WDnNL_realm$cumulative, na.rm = TRUE))
+          ylim = c(0, 1.1 * max(cum_GNOLEP_realm$cumulative, na.rm = TRUE))
         )
 
         if (interactive()) {readline(prompt = "Press [Enter] for next plot...")}
 
         plot(
-          cum_WDnNL_realm$Year,
-          cum_WDnNL_realm$n,
+          cum_GNOLEP_realm$Year,
+          cum_GNOLEP_realm$n,
           type = "p",
           col = "black",
           main = paste("Yearly records -", rl),
           xlab = "Year",
           ylab = "Yearly number of records",
-          ylim = c(0, 1.1 * max(cum_WDnNL_realm$n, na.rm = TRUE)))
+          ylim = c(0, 1.1 * max(cum_GNOLEP_realm$n, na.rm = TRUE)))
 
         if (interactive()) {
           readline(prompt = "Press [Enter] for next realm")}}}
