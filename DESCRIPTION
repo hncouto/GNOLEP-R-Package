@@ -1,6 +1,6 @@
-Package: WDnNL
+Package: GNOLEP
 Type: Package
-Title: WDnNL - Worldwide Database of non-Native Lepidoptera
+Title: GNOLEP - Global Database of Non-native Lepidoptera
 Version: 0.0.1
 Authors@R: c(
     person(
@@ -29,7 +29,7 @@ Authors@R: c(
     role = c("aut", "col")
     )
   )
-Description: Access directly through R to the up-to-date version of the Worldwide Database of non-Native Lepidoptera (WDnNL) and allow for plot and extract summary data.
+Description: Access directly through R to the up-to-date version of the Global Database of Non-native Lepidoptera (GNOLEP) and allow for plot and extract summary data.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
