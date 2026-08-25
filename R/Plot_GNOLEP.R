@@ -208,6 +208,7 @@ plot.GNOLEP <- function(
       names.arg = continent_counts$Continent,
       col = "black",
       ylab = "Number of records",
+      ylim = c(0, 1.1*max(continent_counts$n, na.rm = TRUE)),
       main = "Records per Continent",
       las = 2
     )
@@ -231,6 +232,7 @@ plot.GNOLEP <- function(
       col = "black",
       ylab = "Number of records",
       main = "Records per Realm",
+      ylim = c(0, 1.1*max(realm_counts$n, na.rm = TRUE)),
       las = 2
     )
 
