@@ -12,3 +12,7 @@ The GNOLEP package allows for an easier access to the World Database of Non-nati
 
 # Plots
 
+To extract sequential plots it is recommended to use:
+png("GNOLEP_%d.png")
+plot(GNOLEP)
+dev.off()
