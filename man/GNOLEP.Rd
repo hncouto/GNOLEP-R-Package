@@ -18,24 +18,24 @@ Distribution Variables (4): Region, Country, Continent, Biogeographic Realm;
 Reference Data (2): Reference Citation, Reference Year;
 
 \describe{
-  \item{RecordID}{integer; unique record id}
-  \item{Cryptogenic}{binary; Cryptogenic Origin}
-  \item{IntentionalRelease}{binary; record of intentional introduction (biocontrol included)}
-  \item{Introduced}{binary; record of human mediated introduction }
-  \item{Dispersal}{binary; record of species arriving by dispersal }
-  \item{Established}{binary; record of established population}
-  \item{Eradicated}{binary; record of eradication of previously established population}
-  \item{Year}{integer; year of first record}
-  \item{Species}{character; species name as in the original source}
-  \item{AcceptedSpecies}{character; species name accepted by GBIF}
-  \item{Genus}{character; species taxonomic genus}
-  \item{Family}{character; species taxonomic family}
-  \item{AreaName}{character; record region}
-  \item{Country}{character; record country}
-  \item{Continent}{character; record continent}
-  \item{Realm}{character; record biogeographic realm}
-  \item{BibliographicReference}{character; original record reference}
-  \item{ReferenceYear}{integer; reference year}
+  \item{GNOLEP.recordID}{integer; unique record id}
+  \item{GNOLEP.cryptogenic}{binary; Cryptogenic Origin}
+  \item{GNOLEP.intentionalRelease}{binary; record of intentional introduction (biocontrol included)}
+  \item{GNOLEP.introduced}{binary; record of human mediated introduction }
+  \item{GNOLEP.dispersal}{binary; record of species arriving by dispersal }
+  \item{GNOLEP.established}{binary; record of established population}
+  \item{GNOLEP.eradicated}{binary; record of eradication of previously established population}
+  \item{dwc.year}{integer; year of first record}
+  \item{dwc.scientificName}{character; species name as in the original source}
+  \item{GNOLEP.acceptedSpecies}{character; species name accepted by GBIF}
+  \item{dwc.genus}{character; species taxonomic genus}
+  \item{dwc.family}{character; species taxonomic family}
+  \item{dwc.verbatimLocality}{character; record region}
+  \item{dwc.country}{character; record country}
+  \item{dwc.continent}{character; record continent}
+  \item{GNOLEP.realm}{character; record biogeographic realm}
+  \item{dwc.associatedReferences}{character; original record reference}
+  \item{GNOLEP.referenceYear}{integer; reference year}
 }
 }
 \source{

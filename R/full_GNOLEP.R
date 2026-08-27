@@ -108,17 +108,17 @@ GNOLEP_extract <- function(table, version = "", destination_file = NULL) {
     Taxonomy_keyd <- tables$TaxonomyGNOLEP %>%
       left_join(
         tables$TaxonomyGNOLEP %>%
-          select(SpeciesID, Species) %>%
-          rename(AcceptedSpeciesID = SpeciesID,
-                 AcceptedSpecies = Species),
-        by = "AcceptedSpeciesID")
+          select(GNOLEP.speciesID, Species) %>%
+          rename(GNOLEP.acceptedSpeciesID = GNOLEP.speciesID,
+                 GNOLEP.acceptedSpecies = dwc.scientificName),
+        by = "GNOLEP.acceptedSpeciesID")
 
     GNOLEP <- tables$RecordsGNOLEP %>%
-      left_join(Taxonomy_keyd, by = "SpeciesID") %>%
-      left_join(tables$RegionsGNOLEP, by = "AreaID") %>%
-      left_join(tables$RealmsGNOLEP, by = "RealmID") %>%
-      left_join(tables$ReferencesGNOLEP, by = "ReferenceID") %>%
-      select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
+      left_join(Taxonomy_keyd, by = "GNOLEP.speciesID") %>%
+      left_join(tables$RegionsGNOLEP, by = "GNOLEP.areaID") %>%
+      left_join(tables$RealmsGNOLEP, by = "GNOLEP.realmID") %>%
+      left_join(tables$ReferencesGNOLEP, by = "GNOLEP.referenceID") %>%
+      select(-GNOLEP.speciesID, -GNOLEP.areaID, -GNOLEP.realmID, -GNOLEP.referenceID, -GNOLEP.acceptedSpeciesID)
     class(GNOLEP) <- append("GNOLEP", class(GNOLEP))
     GNOLEP}
 
@@ -129,40 +129,41 @@ GNOLEP_extract <- function(table, version = "", destination_file = NULL) {
       value[idx[which.min(rank[idx])]]}
     Taxonomy_keyd <- tables$TaxonomyGNOLEP %>%
       left_join(tables$TaxonomyGNOLEP %>%
-                  select(SpeciesID, Species) %>%
-                  rename(AcceptedSpeciesID = SpeciesID,
-                  AcceptedSpecies = Species), by = "AcceptedSpeciesID") %>%
-      select(SpeciesID, AcceptedSpeciesID, AcceptedSpecies)
+                  select(GNOLEP.speciesID, dwc.scientificName) %>%
+                  rename(GNOLEP.acceptedSpeciesID = GNOLEP.speciesID,
+                         GNOLEP.acceptedSpecies = dwc.scientificName), by = "GNOLEP.acceptedSpeciesID") %>%
+      select(GNOLEP.speciesID, GNOLEP.acceptedSpeciesID, GNOLEP.acceptedSpecies)
     Observations <- tables$RecordsGNOLEP %>%
-      inner_join(Taxonomy_keyd, by = "SpeciesID") %>%
-      inner_join(tables$RegionsGNOLEP, by = "AreaID") %>%
-      inner_join(tables$RealmsGNOLEP, by = "RealmID") %>%
-      inner_join(tables$ReferencesGNOLEP, by = "ReferenceID") %>%
-      select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
+      inner_join(Taxonomy_keyd, by = "GNOLEP.speciesID") %>%
+      inner_join(tables$RegionsGNOLEP, by = "GNOLEP.areaID") %>%
+      inner_join(tables$RealmsGNOLEP, by = "GNOLEP.realmID") %>%
+      inner_join(tables$ReferencesGNOLEP, by = "GNOLEP.referenceID") %>%
+      select(-GNOLEP.speciesID, -GNOLEP.areaID, -GNOLEP.realmID, -GNOLEP.referenceID, -GNOLEP.acceptedSpeciesID)
 
     RankedObservations <- Observations %>%
-      filter(Introduced == 1 | is.na(Introduced)) %>%
-      group_by(AcceptedSpecies, AreaName, Realm) %>%
-      mutate(RefRank = row_number(desc(ReferenceYear))) %>%
+      rename(dwc.scientificName = GNOLEP.acceptedSpecies) %>%
+      filter(GNOLEP.introduced == 1 | is.na(GNOLEP.introduced)) %>%
+      group_by(dwc.scientificName, dwc.verbatimLocality, GNOLEP.realm) %>%
+      mutate(RefRank = row_number(desc(GNOLEP.referenceYear))) %>%
       ungroup() %>%
-      group_by(AcceptedSpecies, AreaName, Realm) %>%
-      mutate(First_Record = min(Year, na.rm = TRUE)) %>%
+      group_by(dwc.scientificName, dwc.verbatimLocality, GNOLEP.realm) %>%
+      mutate(dwc.year = min(dwc.year, na.rm = TRUE)) %>%
       ungroup()
 
     ObservationsSummary <- RankedObservations %>%
-      group_by(AcceptedSpecies, AreaName, Continent, Realm, First_Record) %>%
-      summarise(Cryptogenic = pick_first_non_na(Cryptogenic, RefRank),
-                Dispersal = pick_first_non_na(Dispersal, RefRank),
-                Eradicated = pick_first_non_na(Eradicated, RefRank),
-                Established = pick_first_non_na(Established, RefRank),
-                IntentionalRelease = pick_first_non_na(IntentionalRelease, RefRank),
-                Introduced = pick_first_non_na(Introduced, RefRank),
-                Latest_Reference = BibliographicReference[which.min(ifelse(RefRank == 1, 0, 1))][1],
-                Latest_Reference_Year = ReferenceYear[RefRank == 1][1],
+      group_by(dwc.scientificName, dwc.verbatimLocality, dwc.continent, GNOLEP.realm, dwc.year) %>%
+      summarise(GNOLEP.cryptogenic = pick_first_non_na(GNOLEP.cryptogenic, RefRank),
+                GNOLEP.dispersal = pick_first_non_na(GNOLEP.dispersal, RefRank),
+                GNOLEP.eradicated = pick_first_non_na(GNOLEP.eradicated, RefRank),
+                GNOLEP.established = pick_first_non_na(GNOLEP.established, RefRank),
+                GNOLEP.intentionalRelease = pick_first_non_na(GNOLEP.intentionalRelease, RefRank),
+                GNOLEP.introduced = pick_first_non_na(GNOLEP.introduced, RefRank),
+                Latest_Reference = dwc.associatedReferences[which.min(ifelse(RefRank == 1, 0, 1))][1],
+                Latest_Reference_Year = GNOLEP.referenceYear[RefRank == 1][1],
           .groups = "drop")
     CondensedGNOLEP <- ObservationsSummary %>%
-      mutate(First_Record = dplyr::if_else(is.infinite(First_Record),NA_real_,
-            First_Record))
+      mutate(dwc.year = dplyr::if_else(is.infinite(dwc.year),NA_real_,
+            dwc.year))
     class(CondensedGNOLEP) <- c("CondensedGNOLEP", "data.frame")
     CondensedGNOLEP}
 

@@ -20,24 +20,24 @@
 #' Reference Data (2): Reference Citation, Reference Year;
 #'
 #' \describe{
-#'   \item{RecordID}{integer; unique record id}
-#'   \item{Cryptogenic}{binary; Cryptogenic Origin}
-#'   \item{IntentionalRelease}{binary; record of intentional introduction (biocontrol included)}
-#'   \item{Introduced}{binary; record of human mediated introduction }
-#'   \item{Dispersal}{binary; record of species arriving by dispersal }
-#'   \item{Established}{binary; record of established population}
-#'   \item{Eradicated}{binary; record of eradication of previously established population}
-#'   \item{Year}{integer; year of first record}
-#'   \item{Species}{character; species name as in the original source}
-#'   \item{AcceptedSpecies}{character; species name accepted by GBIF}
-#'   \item{Genus}{character; species taxonomic genus}
-#'   \item{Family}{character; species taxonomic family}
-#'   \item{AreaName}{character; record region}
-#'   \item{Country}{character; record country}
-#'   \item{Continent}{character; record continent}
-#'   \item{Realm}{character; record biogeographic realm}
-#'   \item{BibliographicReference}{character; original record reference}
-#'   \item{ReferenceYear}{integer; reference year}
+#'   \item{GNOLEP.recordID}{integer; unique record id}
+#'   \item{GNOLEP.cryptogenic}{binary; Cryptogenic Origin}
+#'   \item{GNOLEP.intentionalRelease}{binary; record of intentional introduction (biocontrol included)}
+#'   \item{GNOLEP.introduced}{binary; record of human mediated introduction }
+#'   \item{GNOLEP.dispersal}{binary; record of species arriving by dispersal }
+#'   \item{GNOLEP.established}{binary; record of established population}
+#'   \item{GNOLEP.eradicated}{binary; record of eradication of previously established population}
+#'   \item{dwc.year}{integer; year of first record}
+#'   \item{dwc.scientificName}{character; species name as in the original source}
+#'   \item{GNOLEP.acceptedSpecies}{character; species name accepted by GBIF}
+#'   \item{dwc.genus}{character; species taxonomic genus}
+#'   \item{dwc.family}{character; species taxonomic family}
+#'   \item{dwc.verbatimLocality}{character; record region}
+#'   \item{dwc.country}{character; record country}
+#'   \item{dwc.continent}{character; record continent}
+#'   \item{GNOLEP.realm}{character; record biogeographic realm}
+#'   \item{dwc.associatedReferences}{character; original record reference}
+#'   \item{GNOLEP.referenceYear}{integer; reference year}
 #' }
 #' @source GNOLEP database (check package source reference)
 "GNOLEP"
@@ -57,17 +57,17 @@
 #'
 #'
 #'\describe{
-#'   \item{AcceptedSpecies}{character; species name accepted by GBIF}
-#'   \item{AreaName}{character; record region}
-#'   \item{Continent}{character; record continent}
-#'   \item{Realm}{character; record biogeographic realm}
-#'   \item{First_Record}{integer; oldest first record}
-#'   \item{Cryptogenic}{binary; Cryptogenic Origin}
-#'   \item{Dispersal}{binary; Arrival by dispersal}
-#'   \item{Eradicated}{binary; Species previously established but currently eradicated}
-#'   \item{Established}{binary; record of established population}
-#'   \item{IntentionalRelease}{binary; record of intentional introduction (biocontrol included)}
-#'   \item{Introduced}{binary; record of arrival related to human activity}
+#'   \item{dwc.scientificName}{character; species name accepted by GBIF}
+#'   \item{dwc.verbatimLocality}{character; record region}
+#'   \item{dwc.continent}{character; record continent}
+#'   \item{GNOLEP.realm}{character; record biogeographic realm}
+#'   \item{dwc.year}{integer; oldest first record}
+#'   \item{GNOLEP.cryptogenic}{binary; Cryptogenic Origin}
+#'   \item{GNOLEP.dispersal}{binary; Arrival by dispersal}
+#'   \item{GNOLEP.eradicated}{binary; Species previously established but currently eradicated}
+#'   \item{GNOLEP.established}{binary; record of established population}
+#'   \item{GNOLEP.intentionalRelease}{binary; record of intentional introduction (biocontrol included)}
+#'   \item{GNOLEP.introduced}{binary; record of arrival related to human activity}
 #'   \item{Latest_Reference}{character; most recent reference on the database for the species-region pair}
 #'   \item{Latest_Reference_Year}{integer; reference year}
 #' }
@@ -79,11 +79,11 @@
 #' @format A data frame with the Taxonomy table from the GNOLEP.
 #'
 #'\describe{
-#'   \item{SpeciesID}{character; species unique identifier}
-#'   \item{AcceptedSpeciesID}{character; species unique identifier related to the current species name as it is accepted by GBIF}
-#'   \item{Family}{character; family name}
-#'   \item{Genus}{character; genus name}
-#'   \item{Species}{character; species name}
+#'   \item{GNOLEP.speciesID}{character; species unique identifier}
+#'   \item{GNOLEP.acceptedSpeciesID}{character; species unique identifier related to the current species name as it is accepted by GBIF}
+#'   \item{dwc.family}{character; family name}
+#'   \item{dwc.genus}{character; genus name}
+#'   \item{dwc.scientificName}{character; species name}
 #'}
 #'
 "TaxonomyGNOLEP"

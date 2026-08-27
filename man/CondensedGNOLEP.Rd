@@ -17,17 +17,17 @@ Reference Data (2): Latest Reference (in the Complete database), Latest Referenc
 
 
 \describe{
-  \item{AcceptedSpecies}{character; species name accepted by GBIF}
-  \item{AreaName}{character; record region}
-  \item{Continent}{character; record continent}
-  \item{Realm}{character; record biogeographic realm}
-  \item{First_Record}{integer; oldest first record}
-  \item{Cryptogenic}{binary; Cryptogenic Origin}
-  \item{Dispersal}{binary; Arrival by dispersal}
-  \item{Eradicated}{binary; Species previously established but currently eradicated}
-  \item{Established}{binary; record of established population}
-  \item{IntentionalRelease}{binary; record of intentional introduction (biocontrol included)}
-  \item{Introduced}{binary; record of arrival related to human activity}
+  \item{dwc.scientificName}{character; species name accepted by GBIF}
+  \item{dwc.verbatimLocality}{character; record region}
+  \item{dwc.continent}{character; record continent}
+  \item{GNOLEP.realm}{character; record biogeographic realm}
+  \item{dwc.year}{integer; oldest first record}
+  \item{GNOLEP.cryptogenic}{binary; Cryptogenic Origin}
+  \item{GNOLEP.dispersal}{binary; Arrival by dispersal}
+  \item{GNOLEP.eradicated}{binary; Species previously established but currently eradicated}
+  \item{GNOLEP.established}{binary; record of established population}
+  \item{GNOLEP.intentionalRelease}{binary; record of intentional introduction (biocontrol included)}
+  \item{GNOLEP.introduced}{binary; record of arrival related to human activity}
   \item{Latest_Reference}{character; most recent reference on the database for the species-region pair}
   \item{Latest_Reference_Year}{integer; reference year}
 }

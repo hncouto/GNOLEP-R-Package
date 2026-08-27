@@ -8,11 +8,11 @@
 A data frame with the Taxonomy table from the GNOLEP.
 
 \describe{
-  \item{SpeciesID}{character; species unique identifier}
-  \item{AcceptedSpeciesID}{character; species unique identifier related to the current species name as it is accepted by GBIF}
-  \item{Family}{character; family name}
-  \item{Genus}{character; genus name}
-  \item{Species}{character; species name}
+  \item{GNOLEP.speciesID}{character; species unique identifier}
+  \item{GNOLEP.acceptedSpeciesID}{character; species unique identifier related to the current species name as it is accepted by GBIF}
+  \item{dwc.family}{character; family name}
+  \item{dwc.genus}{character; genus name}
+  \item{dwc.scientificName}{character; species name}
 }
 }
 \usage{

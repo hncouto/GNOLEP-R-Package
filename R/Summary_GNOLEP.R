@@ -50,51 +50,51 @@ summary.GNOLEP <- function(
 ) {
 
 
-  if (!is.null(family_list)) {object <- object[object$Family %in% family_list, ]}
-  if (!is.null(country_list)) {object <- object[object$Country %in% country_list, ]}
-  if (!is.null(continent_list)) {object <- object[object$Continent %in% continent_list, ]}
-  if (!is.null(realm_list)) {object <- object[object$Realm %in% realm_list, ]}
-  if (!include_non_established) {object <- object[object$Established != 0 | is.na(object$Established), ]}
-  if (!include_intentional) {object <- object[object$IntentionalRelease != 1 | is.na(object$IntentionalRelease),  ]}
-  if (!include_cryptogenic) {object <- object[object$Cryptogenic != 1 | is.na(object$Cryptogenic), ]}
-  if (!include_non_Introduced) {object <- object[object$Introduced != 0 | is.na(object$Introduced), ]}
-  if (!include_absent_establishment_data) {object <- object[!is.na(object$Established), ]}
-  if (!include_absent_intentional_data) {object <- object[!is.na(object$IntentionalRelease), ]}
-  if (!include_absent_cryptogenic_data) {object <- object[!is.na(object$Cryptogenic), ]}
-  if (!include_absent_Introduced_data) {object <- object[!is.na(object$Introduced), ]}
-  if (!include_eradicated_data) {object <- object[!is.na(object$Eradicated), ]}
-  if (!include_eradication_records) {object <- object[object$Eradicated != 1 | is.na(object$Eradicated), ]}
+  if (!is.null(family_list)) {object <- object[object$dwc.family %in% family_list, ]}
+  if (!is.null(country_list)) {object <- object[object$dwc.country %in% country_list, ]}
+  if (!is.null(continent_list)) {object <- object[object$dwc.continent %in% continent_list, ]}
+  if (!is.null(realm_list)) {object <- object[object$dwc.realm %in% realm_list, ]}
+  if (!include_non_established) {object <- object[object$GNOLEP.established != 0 | is.na(object$GNOLEP.established), ]}
+  if (!include_intentional) {object <- object[object$GNOLEP.intentionalRelease != 1 | is.na(object$GNOLEP.intentionalRelease),  ]}
+  if (!include_cryptogenic) {object <- object[object$GNOLEP.cryptogenic != 1 | is.na(object$GNOLEP.cryptogenic), ]}
+  if (!include_non_Introduced) {object <- object[object$GNOLEP.introduced != 0 | is.na(object$GNOLEP.introduced), ]}
+  if (!include_absent_establishment_data) {object <- object[!is.na(object$GNOLEP.established), ]}
+  if (!include_absent_intentional_data) {object <- object[!is.na(object$GNOLEP.intentionalRelease), ]}
+  if (!include_absent_cryptogenic_data) {object <- object[!is.na(object$GNOLEP.cryptogenic), ]}
+  if (!include_absent_Introduced_data) {object <- object[!is.na(object$GNOLEP.introduced), ]}
+  if (!include_eradicated_data) {object <- object[!is.na(object$GNOLEP.eradicated), ]}
+  if (!include_eradication_records) {object <- object[object$GNOLEP.eradicated != 1 | is.na(object$GNOLEP.eradicated), ]}
   if (!include_records_pre_eradication) {object <- object}
   if (!include_records_pre_eradication) {
-    filtered_data <- object %>% filter(Eradicated == 1)
-    erad_years <- filtered_data %>% group_by(AcceptedSpecies, AreaName) %>%
-      summarise( ReferenceYear = max(ReferenceYear, na.rm = FALSE),
+    filtered_data <- object %>% filter(GNOLEP.eradicated == 1)
+    erad_years <- filtered_data %>% group_by(GNOLEP.acceptedSpecies, dwc.verbatimLocality) %>%
+      summarise( GNOLEP.referenceYear = max(GNOLEP.referenceYear, na.rm = FALSE),
                  .groups = "drop")
-    names(erad_years)[names(erad_years) == "ReferenceYear"] <- "EradicationYear"
-    object <- merge(object,erad_years, by = c("AcceptedSpecies", "AreaName"), all.x = TRUE)
-    object <- object %>% filter(is.na(EradicationYear) | ReferenceYear >= EradicationYear)
+    names(erad_years)[names(erad_years) == "GNOLEP.referenceYear"] <- "EradicationYear"
+    object <- merge(object,erad_years, by = c("GNOLEP.acceptedSpecies", "dwc.verbatimLocality"), all.x = TRUE)
+    object <- object %>% filter(is.na(EradicationYear) | GNOLEP.referenceYear >= EradicationYear)
     object$EradicationYear <- NULL}
 
   if(nrow(object) == 0) {stop("Data table is empty.\n")}
 
   total_records <- nrow(object)
-  total_species <- length(unique(object$AcceptedSpecies))
-  total_families <- length(unique(object$Family))
-  total_regions <- length(unique(object$AreaName))
-  total_countries <- length(unique(object$Country))
-  total_continents <- length(unique(object$Continent))
-  total_realms <- length(unique(object$Realm))
-  total_references <- length(unique(object$BibliographicReference))
-  top_species <- names(head(sort(table(object$AcceptedSpecies), decreasing = TRUE), 1))
-  top_family <- names(head(sort(table(object$Family), decreasing = TRUE), 1))
-  top_regions   <- names(head(sort(table(object$AreaName), decreasing = TRUE), 1))
-  top_reference <- names(head(sort(table(object$BibliographicReference), decreasing = TRUE), 1))
-  oldest_record_year <- min(object$Year, na.rm = TRUE)
-  oldest_reference <- min(object$ReferenceYear, na.rm = TRUE)
-  most_prevalent_species_records <- as.integer(head(sort(table(object$AcceptedSpecies), decreasing = TRUE), 1))
-  most_prevalent_family_records <- as.integer(head(sort(table(object$Family), decreasing = TRUE), 1))
-  most_prevalent_region_records <- as.integer(head(sort(table(object$AreaName), decreasing = TRUE), 1))
-  most_prevalent_reference_records <- as.integer(head(sort(table(object$BibliographicReference), decreasing = TRUE), 1))
+  total_species <- length(unique(object$GNOLEP.acceptedSpecies))
+  total_families <- length(unique(object$dwc.family))
+  total_regions <- length(unique(object$dwc.verbatimLocality))
+  total_countries <- length(unique(object$dwc.country))
+  total_continents <- length(unique(object$dwc.continent))
+  total_realms <- length(unique(object$GNOLEP.realm))
+  total_references <- length(unique(object$dwc.associatedReferences))
+  top_species <- names(head(sort(table(object$GNOLEP.acceptedSpecies), decreasing = TRUE), 1))
+  top_family <- names(head(sort(table(object$dwc.family), decreasing = TRUE), 1))
+  top_regions   <- names(head(sort(table(object$dwc.verbatimLocality), decreasing = TRUE), 1))
+  top_reference <- names(head(sort(table(object$dwc.associatedReferences), decreasing = TRUE), 1))
+  oldest_record_year <- min(object$dwc.year, na.rm = TRUE)
+  oldest_reference <- min(object$GNOLEP.referenceYear, na.rm = TRUE)
+  most_prevalent_species_records <- as.integer(head(sort(table(object$GNOLEP.acceptedSpecies), decreasing = TRUE), 1))
+  most_prevalent_family_records <- as.integer(head(sort(table(object$dwc.family), decreasing = TRUE), 1))
+  most_prevalent_region_records <- as.integer(head(sort(table(object$dwc.verbatimLocality), decreasing = TRUE), 1))
+  most_prevalent_reference_records <- as.integer(head(sort(table(object$dwc.associatedReferences), decreasing = TRUE), 1))
 
   result <- list (total_records = total_records,
                   total_species = total_species,
@@ -244,31 +244,31 @@ summary.CondensedGNOLEP <- function(
     continent_list = NULL,
     realm_list = NULL) {
 
-  if (!is.null(continent_list)) {object <- object[object$Continent %in% continent_list, ]}
-  if (!is.null(realm_list)) {object <- object[object$Realm %in% realm_list, ]}
-  if (!include_non_established) {object <- object[object$Established != 0 | is.na(object$Established), ]}
-  if (!include_intentional) {object <- object[object$IntentionalRelease != 1 | is.na(object$IntentionalRelease),  ]}
-  if (!include_cryptogenic) {object <- object[object$Cryptogenic != 1 | is.na(object$Cryptogenic), ]}
-  if (!include_non_Introduced) {object <- object[object$Introduced != 0 | is.na(object$Introduced), ]}
-  if (!include_absent_establishment_data) {object <- object[!is.na(object$Established), ]}
-  if (!include_absent_intentional_data) {object <- object[!is.na(object$IntentionalRelease), ]}
-  if (!include_absent_cryptogenic_data) {object <- object[!is.na(object$Cryptogenic), ]}
-  if (!include_absent_Introduced_data) {object <- object[!is.na(object$Introduced), ]}
-  if (!include_eradicated_data) {object <- object[!is.na(object$Eradicated), ]}
-  if (!include_eradication_records) {object <- object[object$Eradicated != 1 | is.na(object$Eradicated), ]}
+  if (!is.null(continent_list)) {object <- object[object$dwc.continent %in% continent_list, ]}
+  if (!is.null(realm_list)) {object <- object[object$GNOLEP.realm %in% realm_list, ]}
+  if (!include_non_established) {object <- object[object$GNOLEP.established != 0 | is.na(object$GNOLEP.established), ]}
+  if (!include_intentional) {object <- object[object$GNOLEP.intentionalRelease != 1 | is.na(object$GNOLEP.intentionalRelease),  ]}
+  if (!include_cryptogenic) {object <- object[object$GNOLEP.cryptogenic != 1 | is.na(object$GNOLEP.cryptogenic), ]}
+  if (!include_non_Introduced) {object <- object[object$GNOLEP.introduced != 0 | is.na(object$GNOLEP.introduced), ]}
+  if (!include_absent_establishment_data) {object <- object[!is.na(object$GNOLEP.established), ]}
+  if (!include_absent_intentional_data) {object <- object[!is.na(object$GNOLEP.intentionalRelease), ]}
+  if (!include_absent_cryptogenic_data) {object <- object[!is.na(object$GNOLEP.cryptogenic), ]}
+  if (!include_absent_Introduced_data) {object <- object[!is.na(object$GNOLEP.introduced), ]}
+  if (!include_eradicated_data) {object <- object[!is.na(object$GNOLEP.eradicated), ]}
+  if (!include_eradication_records) {object <- object[object$GNOLEP.eradicated != 1 | is.na(object$GNOLEP.eradicated), ]}
 
   if(nrow(object) == 0) {stop("Data table is empty.\n")}
 
   total_records <- nrow(object)
-  total_species <- length(unique(object$AcceptedSpecies))
-  total_regions <- length(unique(object$AreaName))
-  total_continents <- length(unique(object$Continent))
-  total_realms <- length(unique(object$Realm))
-  top_species <- names(head(sort(table(object$AcceptedSpecies), decreasing = TRUE), 1))
-  top_regions   <- names(head(sort(table(object$AreaName), decreasing = TRUE), 1))
-  oldest_record_year <- min(object$First_Record, na.rm = TRUE)
-  most_prevalent_species_records <- as.integer(head(sort(table(object$AcceptedSpecies), decreasing = TRUE), 1))
-  most_prevalent_region_records <- as.integer(head(sort(table(object$AreaName), decreasing = TRUE), 1))
+  total_species <- length(unique(object$dwc.scientificName))
+  total_regions <- length(unique(object$dwc.verbatimLocality))
+  total_continents <- length(unique(object$dwc.continent))
+  total_realms <- length(unique(object$GNOLEP.realm))
+  top_species <- names(head(sort(table(object$dwc.scientificName), decreasing = TRUE), 1))
+  top_regions   <- names(head(sort(table(object$dwc.verbatimLocality), decreasing = TRUE), 1))
+  oldest_record_year <- min(object$dwc.year, na.rm = TRUE)
+  most_prevalent_species_records <- as.integer(head(sort(table(object$dwc.scientificName), decreasing = TRUE), 1))
+  most_prevalent_region_records <- as.integer(head(sort(table(object$dwc.verbatimLocality), decreasing = TRUE), 1))
 
   result <- list (total_records = total_records,
                   total_species = total_species,

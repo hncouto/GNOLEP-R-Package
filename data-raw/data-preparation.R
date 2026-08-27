@@ -41,17 +41,17 @@ Realms <- read_private_csv("Database Tables/Geography_Realms.csv")
 Taxonomy_keyd <- Taxonomy %>%
   left_join(
     Taxonomy %>%
-      select(SpeciesID, Species) %>%
-      rename(AcceptedSpeciesID = SpeciesID,
-             AcceptedSpecies = Species),
-    by = "AcceptedSpeciesID")
+      select(GNOLEP.speciesID, dwc.scientificName) %>%
+      rename(GNOLEP.acceptedSpeciesID = GNOLEP.speciesID,
+             GNOLEP.acceptedSpecies = dwc.scientificName),
+    by = "GNOLEP.acceptedSpeciesID")
 
 GNOLEP <- Records %>%
-  left_join(Taxonomy_keyd, by = c("SpeciesID" = "SpeciesID")) %>%
-  left_join(Regions, by = c("AreaID" = "AreaID")) %>%
-  left_join(Realms, by = c("RealmID" = "RealmID")) %>%
-  left_join(References, by = c("ReferenceID" = "ReferenceID")) %>%
-  select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
+  left_join(Taxonomy_keyd, by = c("GNOLEP.speciesID" = "GNOLEP.speciesID")) %>%
+  left_join(Regions, by = c("GNOLEP.areaID" = "GNOLEP.areaID")) %>%
+  left_join(Realms, by = c("GNOLEP.realmID" = "GNOLEP.realmID")) %>%
+  left_join(References, by = c("GNOLEP.referenceID" = "GNOLEP.referenceID")) %>%
+  select(-GNOLEP.speciesID, -GNOLEP.areaID, -GNOLEP.realmID, -GNOLEP.referenceID, -GNOLEP.acceptedSpeciesID)
 
 
 
@@ -63,31 +63,32 @@ save(GNOLEP, file = "data/GNOLEP.rda", compress = "xz")
 # Condensed Database
 
 Taxonomy_keyd <-
-  Taxonomy_keyd %>% select(SpeciesID, AcceptedSpeciesID, AcceptedSpecies)
+  Taxonomy_keyd %>% select(GNOLEP.speciesID, GNOLEP.acceptedSpeciesID, GNOLEP.acceptedSpecies)
 
 Observations <- Records %>%
-  inner_join(Taxonomy_keyd, by = "SpeciesID") %>%
-  inner_join(Regions, by = "AreaID") %>%
-  inner_join(Realms, by = "RealmID") %>%
-  inner_join(References, by = "ReferenceID") %>%
-  select(-SpeciesID, -AreaID, -RealmID, -ReferenceID, -AcceptedSpeciesID)
+  inner_join(Taxonomy_keyd, by = "GNOLEP.speciesID") %>%
+  inner_join(Regions, by = "GNOLEP.areaID") %>%
+  inner_join(Realms, by = "GNOLEP.realmID") %>%
+  inner_join(References, by = "GNOLEP.referenceID") %>%
+  select(-GNOLEP.speciesID, -GNOLEP.areaID, -GNOLEP.realmID, -GNOLEP.referenceID, -GNOLEP.acceptedSpeciesID)
 
 RankedObservations <- Observations %>%
-  filter(Introduced == 1 | is.na(Introduced)) %>%
-  group_by(AcceptedSpecies, AreaName, Realm) %>%
-  mutate(RefRank = row_number(desc(ReferenceYear))) %>%
+  rename(dwc.scientificName = GNOLEP.acceptedSpecies) %>%
+  filter(GNOLEP.introduced == 1 | is.na(GNOLEP.introduced)) %>%
+  group_by(dwc.scientificName, dwc.verbatimLocality, GNOLEP.realm) %>%
+  mutate(RefRank = row_number(desc(GNOLEP.referenceYear))) %>%
   ungroup() %>%
-  group_by(AcceptedSpecies, AreaName, Realm) %>%
-  mutate(First_Record = min(Year, na.rm = TRUE)) %>%
+  group_by(dwc.scientificName, dwc.verbatimLocality, GNOLEP.realm) %>%
+  mutate(dwc.year = min(dwc.year, na.rm = TRUE)) %>%
   ungroup()
 
 UniqueRecords <- RankedObservations %>%
   transmute(
-    Species = AcceptedSpecies,
-    AreaName,
-    Continent,
-    Realm,
-    First_Record) %>%
+    dwc.scientificName,
+    dwc.verbatimLocality,
+    dwc.continent,
+    GNOLEP.realm,
+    dwc.year) %>%
   distinct()
 
 pick_first_non_na <- function(value, rank) {
@@ -97,26 +98,26 @@ pick_first_non_na <- function(value, rank) {
 }
 
 ObservationsSummary <- RankedObservations %>%
-  group_by(AcceptedSpecies,
-           AreaName, Continent, Realm, First_Record) %>%
+  group_by(dwc.scientificName,
+           dwc.verbatimLocality, dwc.continent, GNOLEP.realm, dwc.year) %>%
 
   summarise(
-    Cryptogenic = pick_first_non_na(Cryptogenic, RefRank),
-    Dispersal = pick_first_non_na(Dispersal, RefRank),
-    Eradicated = pick_first_non_na(Eradicated, RefRank),
-    Established = pick_first_non_na(Established, RefRank),
-    IntentionalRelease = pick_first_non_na(IntentionalRelease, RefRank),
-    Introduced = pick_first_non_na(Introduced, RefRank),
-    Latest_Reference = BibliographicReference[which.min(ifelse(RefRank == 1, 0, 1))][1],
-    Latest_Reference_Year = ReferenceYear[RefRank == 1][1],
+    GNOLEP.cryptogenic = pick_first_non_na(GNOLEP.cryptogenic, RefRank),
+    GNOLEP.dispersal = pick_first_non_na(GNOLEP.dispersal, RefRank),
+    GNOLEP.eradicated = pick_first_non_na(GNOLEP.eradicated, RefRank),
+    GNOLEP.established = pick_first_non_na(GNOLEP.established, RefRank),
+    GNOLEP.intentionalRelease = pick_first_non_na(GNOLEP.intentionalRelease, RefRank),
+    GNOLEP.introduced = pick_first_non_na(GNOLEP.introduced, RefRank),
+    Latest_Reference = dwc.associatedReferences[which.min(ifelse(RefRank == 1, 0, 1))][1],
+    Latest_Reference_Year = GNOLEP.referenceYear[RefRank == 1][1],
     .groups = "drop")
 
 CondensedGNOLEP <- ObservationsSummary %>%
   mutate(
-    First_Record = if_else(
-      is.infinite(First_Record),
+    dwc.year = if_else(
+      is.infinite(dwc.year),
       NA_real_,
-      First_Record))
+      dwc.year))
 
 class(CondensedGNOLEP) <- c("CondensedGNOLEP", "GNOLEP", "data.frame")
 save(CondensedGNOLEP, file = "data/CondensedGNOLEP.rda", compress = "xz")
