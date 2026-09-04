@@ -15,9 +15,6 @@ individual_GNOLEP <- function() {
   data(TaxonomyGNOLEP)}
 
 
-library(gh)
-library(jsonlite)
-
 #' Import older versions of GNOLEP
 #'
 #'
@@ -64,43 +61,23 @@ GNOLEP_extract <- function(table, version = "", destination_file = NULL) {
 
     filename <- csv_names[[tbl]]
 
+    filepath <- URLencode(
+      paste0("Previous Versions/V", version, "/", filename), reserved = TRUE)
+
+
     raw_url <- paste0(
-      "https://raw.githubusercontent.com/hncouto/Global_Database_on_Non-native_Lepidoptera/main/Previous%20Versions/V",version,
-      "/", tbl, URLencode(filename))
+      "https://raw.githubusercontent.com/hncouto/Global_Database_on_Non-native_Lepidoptera/main/",
+      filepath)
 
     dl <- GET(raw_url, write_disk(tmp, overwrite = TRUE))
 
-    ###### While database is private it will use this (will be delete when public):
     if (status_code(dl) != 200) {
-      file_path <- URLencode(
-        paste0("Previous Versions/V", version, "/", filename))
+      if (status_code(dl) == 404) {
+        stop(sprintf("Version '%s' is not available or table '%s' does not exist in that version.",
+                     version, tbl), call. = FALSE)}
+      stop(sprintf("Failed to download '%s' from version '%s' (HTTP %s).",
+                   tbl, version, status_code(dl)), call. = FALSE)}
 
-      api_url <- paste0(
-        "https://api.github.com/repos/hncouto/Global_Database_on_Non-native_Lepidoptera/contents/",
-        file_path)
-
-      res <- GET(
-        api_url,
-        add_headers(Authorization = paste("Bearer", Sys.getenv("GITHUB_PAT"))))
-
-      if (status_code(res) == 404) {
-        stop(sprintf("Version '%s' is not available or table '%s' does not exist in that version.",version, tbl), call. = FALSE)}
-
-      if (status_code(res) != 200) {stop(sprintf("GitHub API returned status %s.", httr::status_code(res)), call. = FALSE)}
-
-      download_url <- content(res, as = "parsed")$download_url
-      if (is.null(download_url)) {stop("Could not retrieve download URL from GitHub API.", call. = FALSE)}
-
-      dl <- GET(
-        download_url,
-        add_headers(Authorization = paste("Bearer", Sys.getenv("GITHUB_PAT"))),
-        write_disk(tmp, overwrite = TRUE))
-
-      if (status_code(dl) != 200) {
-        stop(sprintf("Failed to download '%s' (HTTP %s).", tbl, status_code(dl)),
-             call. = FALSE)}}
-
-    #########
 
     read.csv(tmp, check.names = FALSE, encoding = "UTF-8")}
 
