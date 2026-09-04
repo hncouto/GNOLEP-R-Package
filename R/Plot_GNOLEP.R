@@ -1,7 +1,7 @@
 #' Plot Data Summaries
 #'
 #' @param object A GNOLEP object dataframe
-#' @param OverTime Time trends of First Records in the selected dataset. I selected alone it will return global trends
+#' @param OverTime Time trends of First Records in the selected dataset. If selected alone it will return global trends
 #' @param ContinentalPlot Continental Trends in the selected dataset. If selected alone it will return a bar graph with data on continents.
 #' @param RealmPlot Realm Trends in the selected dataset. If selected alone it will return a bar graph with data on biogeographic realms.
 #' @param include_non_established TRUE or FALSE - define if keep only established species or all
